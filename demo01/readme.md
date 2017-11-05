@@ -13,6 +13,8 @@ pip install matplotlib
 ## result
 before:  
 ![处理前](demo.jpg)  
+handling:
+![处理中](result.gif)  
 after:  
 ![处理后](result.jpg)  
 
