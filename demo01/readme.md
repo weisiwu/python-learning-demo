@@ -7,7 +7,6 @@ handle target image to add a superscript number like wechat informative sign wit
 2. pip version 9.0.1  
 ``` cmd
 pip install Pillow
-pip install matplotlib
 ```
 
 ## result
