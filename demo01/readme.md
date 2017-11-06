@@ -2,13 +2,6 @@
 将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。  
 handle target image to add a superscript number like wechat informative sign with python   
 
-## settings
-1. python version 3.6.3  
-2. pip version 9.0.1  
-``` cmd
-pip install Pillow
-```
-
 ## result
 before:  
 ![处理前](demo.jpg)  
