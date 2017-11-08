@@ -3,7 +3,7 @@
 as a apple developer,you are mandated to generate 200 activation code,how would you do?  
 
 ## result
-1. 运行
+1. 运行  
 ![运行代码](./imgs/1.png)  
 2. 结果预览  
 ![activeCode 文件内容](./imgs/2.png)  
