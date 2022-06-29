@@ -15,7 +15,7 @@ strlen = int(len(num)) * 18
 imgPath = os.getcwd()
 
 # open target image
-targetImg = Image.open(imgPath + '\\demo.jpg')
+targetImg = Image.open(imgPath + '/demo.jpg')
 # set font family and size
 font = ImageFont.truetype('font/msyh.ttc', 18)
 # calculate the position
