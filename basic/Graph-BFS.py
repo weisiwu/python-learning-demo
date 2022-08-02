@@ -11,6 +11,7 @@ python deque:
 """
 
 # 创建出来图，图关系依据images/graph.png绘制
+# https://github.com/weisiwu/python-learning-demo/blob/3737764934d56b3a4c23e7a5d0a54c1c92d7c6c5/images/graph.png
 graph = {
     "Me": ["Beli", "Clark", "David"],
     "Bob": ["Clark", "Ken"],
