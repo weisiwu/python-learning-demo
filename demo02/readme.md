@@ -1,15 +1,13 @@
 ## describe
-做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？  
-as a apple developer,you are mandated to generate 200 activation code,how would you do?  
+将 0001 题生成的 200 个激活码（或者优惠券）保存到 MySQL 关系型数据库中。
+save the active code you just generate to you db
 
 ## result
-1. 运行  
-![运行代码](./imgs/1.png)  
-2. 结果预览  
-![activeCode 文件内容](./imgs/2.png)  
+![程序运行log](demo2-1.png)  
+![数据库内数据](demo2-2.png)  
 
 ## reference
-1. [四亿个兑换码的生成/验证算法？](https://www.zhihu.com/question/29865340)  
-2. [Python 练习册，每天一个小程序](https://github.com/Yixiaohan/show-me-the-code)   
-3. [用python生成验证码图片](https://zhuanlan.zhihu.com/p/26528349)  
-4. [Python练习第二题，生成激活码](https://zhuanlan.zhihu.com/p/25169905)  
+1. [Python 文件I/O](http://www.runoob.com/python/python-files-io.html)  
+2. [python操作mysql数据库](http://www.runoob.com/python/python-mysql.html)  
+3. [Python操作MySQL数据库的三种方法](http://blog.csdn.net/oscer2016/article/details/70257024)  
+4. [使用mysql命令行连接远程数据库host跳转](https://segmentfault.com/q/1010000010052719)  ****

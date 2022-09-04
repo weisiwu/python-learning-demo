@@ -1,18 +1,15 @@
 ## describe
-将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。  
-handle target image to add a superscript number like wechat informative sign with python   
+做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？  
+as a apple developer,you are mandated to generate 200 activation code,how would you do?  
 
 ## result
-before:  
-![处理前](demo.jpg)  
-handling:
-![处理中](result.gif)  
-after:  
-![处理后](result.jpg)  
+1. 运行  
+![运行代码](./imgs/1.png)  
+2. 结果预览  
+![activeCode 文件内容](./imgs/2.png)  
 
 ## reference
-0. [分分钟学会一门语言之Python篇](http://www.code123.cc/1049.html)  
-1. [目录和文件操作](http://www.cnblogs.com/zhoujie/archive/2013/04/10/python7.html)  
-2. [用python简单处理图片（1）：打开\显示\保存图像](http://www.cnblogs.com/denny402/p/5096001.html)  
-3. [python 图片上添加文字](http://www.cnblogs.com/tk091/p/4331327.html)   
-4. [PIL](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/00140767171357714f87a053a824ffd811d98a83b58ec13000)  
+1. [四亿个兑换码的生成/验证算法？](https://www.zhihu.com/question/29865340)  
+2. [Python 练习册，每天一个小程序](https://github.com/Yixiaohan/show-me-the-code)   
+3. [用python生成验证码图片](https://zhuanlan.zhihu.com/p/26528349)  
+4. [Python练习第二题，生成激活码](https://zhuanlan.zhihu.com/p/25169905)  

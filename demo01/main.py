@@ -1,40 +1,38 @@
-#-*-coding: utf-8-*-
-import sys
-# PIL: python imaging library,主要是在python2中使用.在python3中改为pillow库
-# https://zhuanlan.zhihu.com/p/58671158
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
+##-*-coding: utf-8-*-
+import random
 
-# desc: 该脚本执行如下
-# 1、输入你要写的数字
-# 2、输入你要修改的图片: 只能在 demo1.jpg demo2.jpg demo3.jpg
-# 3、获取脚本同目录下的demo.jpg,并做调整生成result.jpg
-# 4、打开生成的图片
+# 思路描述:
+# 生成9位的兑换码,由数字大小写构成
+# @num {int} 指定生成的兑换码数目
+# 生成算法描述:
+# 1. 先准备一个包含[a-zA-Z0-9]的数组(不重复,62位)
+# 2. 生成一个长200的结果数组,值的特征为: 001001001,即
+# 分为3组,每组都为同样其序号值.
+# 3. 对结果数组中的数值进行转化,将其每一位作为序号,换取
+# 第一步准备的转换数组中对应的值.每转换3次,打乱一次转换
+# 数组的顺序
 
-# 读取输入的数字
-num = input('输入你要显示的数字: ')
-imgName = input('输入对哪个图片进行操作: ')
-# 计算一行展示的文字宽度，防止超出图片可视区域，被遮盖
-# 偏移值因为汉字(全角)和数字、字母(半角)宽度有差异，所以不同。
-strlen = int(len(num)) * 18
+trans_arr = result = []
+# 生成3个不同的转换数组
+for i in range(0, 3):
+  tmp = list('abcedfghijklmnopqrstuvwxyzABCEDFGHIJKLMNOPQRSTUVWXYZ0123456789')
+  random.shuffle(tmp)
+  trans_arr.append(''.join(tmp))
+# 生成基数组: 001001001...
+base_arr = [ str(x).zfill(3)*3 for x in range(0, 200) ]
+# 打开文件
+output = open('activeCode.txt', 'w')
+# 转化基数组为结果数组
+for item in base_arr:
+  pa = pb = pc = ''
+  # 转化
+  for i in item[0:3]:
+    pa += trans_arr[0][int(i)]
+  for j in item[3:6]:
+    pb += trans_arr[1][int(j)]
+  for k in item[6:9]:
+    pc += trans_arr[2][int(k)]
+  # 将生成的激活码写入文件
+  output.write(pa + pb + pc + '\n')
 
-# 获取当前路径
-imgPath = sys.path[0]
-
-# 在内存中打开图像
-targetImg = Image.open(imgPath + '/' + imgName)
-# 设置字体和大小
-font = ImageFont.truetype(imgPath + '/font/msyh.ttc', 18)
-# 获取图片大小
-w, h = targetImg.size
-# 开始添加文字
-draw = ImageDraw.Draw(targetImg)
-draw.text((w - strlen, 0), num, (255, 0, 0), font)
-draw = ImageDraw.Draw(targetImg)
-# 保存新图片
-targetImg.save(imgPath + "/result_" + imgName)
-
-# 展示结果图片
-targetImg.show()
-print("修改图片成功")
+print('200个随机码生成完毕!')
