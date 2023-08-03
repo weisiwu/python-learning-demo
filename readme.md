@@ -6,11 +6,11 @@
 
 ### **1、《python 编程：从入门到实践》 项目章节**
 
-1. **[ 外星人入侵](./python_crash_course/python_crash_course_1.md)**
+1. **[ 外星人入侵](./python_crash_course/python_crash_course_1/python_crash_course_1.md)**
 
-2. **[数据可视化](./python_crash_course/python_crash_course_2.md)**
+2. **[数据可视化](./python_crash_course/python_crash_course_2/python_crash_course_2.md)**
 
-3. **[web 应用程序](./python_crash_course/python_crash_course_3.md)**
+3. **[web 应用程序](./python_crash_course/python_crash_course_3/python_crash_course_3.md)**
 
 ### **2、[Python 练习册，每天一个小程序][pythond-examples]个人实现**
 
