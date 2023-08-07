@@ -9,6 +9,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
+from button import Button
 
 # TODO:(wsw) 了解下 pygame
 # https://www.pygame.org/
@@ -40,6 +41,9 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
 
+        # 创建Play按钮
+        self.play_button = Button(self, "Play")
+
         # 创建实例统计游戏信息
         self.stats = GameStats(self)
 
@@ -60,6 +64,7 @@ class AlienInvasion:
             self._update_screen()
 
     def _check_events(self):
+        # TODO:(wsw) 添加按键开始游戏
         """响应按键和鼠标事件"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -68,6 +73,9 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     # 按下按键
     def _check_keydown_events(self, event):
@@ -87,6 +95,31 @@ class AlienInvasion:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+
+    # 检查是否点击Play按钮
+    def _check_play_button(self, mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            # 重置游戏统计信息
+            self.stats.reset_stats()
+            self.stats.game_active = True
+            # 隐藏光学鼠标
+            pygame.mouse.set_visible(False)
+
+            # 清空余下外星人和子弹
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # 创建新外星人并恢复飞船位置
+            self._create_fleet()
+            self.ship.center_ship()
+
+    def _check_bullet_alien_collisions(self):
+        # 外星人被消灭完毕后，清空子弹，创建新外星人舰队
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_bullets(self):
         self.bullets.update()
@@ -127,6 +160,11 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        # 如果游戏处于非激活态，则先绘制Play按钮
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+
         # 让最近绘制的屏幕可见(擦去旧屏幕)
         pygame.display.flip()
 
@@ -172,6 +210,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _fire_bullet(self):
         if len(self.bullets) < self.settings.bullet_allowed:
