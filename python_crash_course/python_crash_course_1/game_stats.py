@@ -11,5 +11,18 @@ class GameStats:
         # 游戏默认处于非激活状态
         self.game_active = False
 
+        # 游戏分数
+        self.score = 0
+
+        # 最高得分
+        self.high_score = 0
+
+        # 等级
+        self.level = 1
+
+        # 剩余飞船数量
+        self.ships_left = self.settings.ship_limit
+
     def reset_stats(self):
         self.ships_left = self.settings.ship_limit
+        self.score = 0
