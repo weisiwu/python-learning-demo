@@ -7,7 +7,9 @@ class GameStats:
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.reset_stats()
-        self.game_active = True
+
+        # 游戏默认处于非激活状态
+        self.game_active = False
 
     def reset_stats(self):
         self.ships_left = self.settings.ship_limit
