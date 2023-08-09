@@ -3,7 +3,6 @@ from pygame.sprite import Sprite
 
 
 """通过sprite对子弹进行编组"""
-# TODO:(wsw) 这里Sprite是做什么的？
 
 
 class Alien(Sprite):

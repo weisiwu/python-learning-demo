@@ -12,17 +12,6 @@ from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
 
-# TODO:(wsw) 了解下 pygame
-# https://www.pygame.org/
-
-# TODO:(wsw) 添加游戏音乐: pygame.mixer
-# TODO:(wsw) 外星人也可以向飞船射击
-# TODO:(wsw) 飞船添加盾牌,格挡子弹
-# TODO:(wsw) 按下P键开始游戏
-# TODO:(wsw) 创建一组按钮，可以选择起始难度
-# TODO:(wsw) 最高分保存在本地，方便下次运行继续读取
-# TODO:(wsw) 保证游戏前几轮能够过
-
 
 class AlienInvasion:
     def __init__(self):
@@ -64,7 +53,6 @@ class AlienInvasion:
 
     def run_game(self):
         # 开始游戏主循环
-        # TODO:(wsw) 这种会不会太快？ 无间隔的刷新？
         while True:
             self._check_events()
 
@@ -76,7 +64,6 @@ class AlienInvasion:
             self._update_screen()
 
     def _check_events(self):
-        # TODO:(wsw) 添加按键开始游戏
         """响应按键和鼠标事件"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -97,7 +84,7 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
-        # TODO:(wsw) 按Q退出仍然有问题
+
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             self._exit_game()
 

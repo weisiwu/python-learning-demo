@@ -23,7 +23,6 @@ class Ship(Sprite):
         # 对于每搜飞船，都将其放在屏幕底部的中央
         self.rect.midbottom = self.screen_rect.midbottom
 
-    # TODO:(wsw) 这里限制一下可运动的范围
     def update(self):
         # 根据移动标志调准飞船的位置
         if self.moving_left and self.rect.left > 0:
