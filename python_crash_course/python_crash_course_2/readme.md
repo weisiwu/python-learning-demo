@@ -14,6 +14,12 @@ python -m pip install --user matplotlib
 
 # 效果
 
+点图-颜色映射  
+![点图-颜色映射](./images/squares_plot.png)
+
+随机漫步 - 随机图形生成  
+![随机图形生成](./images/random_walk.png)
+
 # 扩展
 
 # bugfix
