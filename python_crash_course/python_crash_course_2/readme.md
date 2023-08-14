@@ -77,12 +77,12 @@ python -m pip install --user requests
 
 ![点图-颜色映射](./images/squares_plot.png)
 
-<p align='center'>线图，颜色渐变(scatter_squares.py)</p>
+<p align='center'>线图，颜色渐变(<a href="./scatter_squares.py">scatter_squares.py</a>)</p>
 <br/>
 
 ![随机图形生成](./images/random_walk.png)
 
-<p align='center'>（随机漫步）随机图形生成(rw_visual.py)</p>
+<p align='center'>（随机漫步）随机图形生成(<a href="./rw_visual.py">rw_visual.py</a>)</p>
 <br/>
 
 <div style="display:inline-block">
@@ -90,7 +90,7 @@ python -m pip install --user requests
     <img src="./images/two_dices_result_frequencies.jpg" alt="两个骰子结果之和概率" style="width: 45%; height: auto;" />
 </div>
 
-<p align='center'>骰子结果概率(die_visual.py / dice_visual.py)</p>
+<p align='center'>骰子结果概率(<a href="./die_visual.py">die_visual.py</a> / <a href="./dice_visual.py">dice_visual.py</a>)</p>
 <br/>
 
 <div style="display:inline-block">
@@ -99,7 +99,7 @@ python -m pip install --user requests
     <img src="./images/ak_temp_7_4.png" alt="阿拉斯加年度最高低温度线图" style="width: 30%; height: auto;" />
 </div>
 
-<p align='center'>阿拉斯加温度线图(sitka_highs.py)</p>
+<p align='center'>阿拉斯加温度线图(<a href="./sitka_highs.py">sitka_highs.py</a>)</p>
 <br/>
 
 <div style="display:inline-block">
@@ -107,7 +107,7 @@ python -m pip install --user requests
     <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 45%; height: auto;" />
 </div>
 
-<p align='center'>全球地震散点图(eq_explore_data.py)</p>
+<p align='center'>全球地震散点图(<a href="./eq_explore_data.py">eq_explore_data.py</a>)</p>
 
 # Tips
 
