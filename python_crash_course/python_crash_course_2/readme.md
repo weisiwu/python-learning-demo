@@ -99,7 +99,7 @@ python -m pip install --user requests
 <p align='center'>阿拉斯加温度线图</p>
 
 <div style="display:inline-block">
-    <a href='./gloabl_earthquakes.html' style='text-align: center;' align='center'>
+    <a href='./gloabl_earthquakes.html' style='display: inline-block;text-align: center;' align='center'>
         <img src="./images/global_eq_scatters.png" alt="全球地震散点图" style="width: 40%; height: auto;" /><br />
         <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 40%; height: auto;" /><br />
     </a>
