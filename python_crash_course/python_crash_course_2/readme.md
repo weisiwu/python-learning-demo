@@ -80,8 +80,8 @@ python -m pip install --user requests
 <p align='center'>（随机漫步）随机图形生成</p>
 
 <div style="display:inline-block">
-    <img src="./images/dice_result_frequencies.png" alt="骰子结果概率" style="width: 35%; height: auto;" /><br />
-    <img src="./images/two_dices_result_frequencies.png" alt="两个骰子结果之和概率" style="width: 35%; height: auto;" /><br />
+    <img src="./images/dice_result_frequencies.png" alt="骰子结果概率" style="width: 45%; height: auto;" />
+    <img src="./images/two_dices_result_frequencies.png" alt="两个骰子结果之和概率" style="width: 45%; height: auto;" />
 </div>
 
 <p align='center'>骰子结果概率</p>
@@ -95,8 +95,8 @@ python -m pip install --user requests
 <p align='center'>阿拉斯加温度线图</p>
 
 <div style="display:inline-block">
-    <img src="./images/global_eq_scatters.png" alt="全球地震散点图" style="width: 35%; height: auto;" /><br />
-    <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 35%; height: auto;" /><br />
+    <img src="./images/global_eq_scatters.png" alt="全球地震散点图" style="width: 45%; height: auto;" />
+    <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 45%; height: auto;" />
 </div>
 
 <p align='center'>全球地震散点图</p>
