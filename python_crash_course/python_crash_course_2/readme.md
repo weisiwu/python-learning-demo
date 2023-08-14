@@ -94,7 +94,7 @@ python -m pip install --user requests
     <center>两个骰子结果之和概率</center>
 </div>
 
-![阿拉斯加7月最高温度线图](./images/ak_temp_7_2.png)![阿拉斯加年度最高温度线图](./images/ak_temp_7_3.png)![阿拉斯加年度最高低温度线图](./images/ak_temp_7_4.png)
+![阿拉斯加7月最高温度线图](./images/ak_temp_7_2.png) ![阿拉斯加年度最高温度线图](./images/ak_temp_7_3.png) ![阿拉斯加年度最高低温度线图](./images/ak_temp_7_4.png)
 
 <!-- <img src="./images/ak_temp_7_2.png" alt="阿拉斯加7月最高温度线图" style="width: 30%; height: auto;" />
 <img src="./images/ak_temp_7_3.png" alt="阿拉斯加年度最高温度线图" style="width: 30%; height: auto;" />
