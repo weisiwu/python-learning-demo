@@ -101,7 +101,7 @@ python -m pip install --user requests
   <img src="./images/ak_temp_7_3.png" alt="阿拉斯加年度最高温度线图" style="width: 30%; height: auto;" />
   <img src="./images/ak_temp_7_4.png" alt="阿拉斯加年度最高低温度线图" style="width: 30%; height: auto;" />
 </div>
-<p style='text-align: center'>阿拉斯加温度线图</p>
+<p style='width: 100%;text-align: center;'>阿拉斯加温度线图</p>
 
 <div style="display: inline-block;">
     <a href='./two_d6.html' style='text-align: center;display: block;'>
