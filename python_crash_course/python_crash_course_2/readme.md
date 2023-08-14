@@ -24,16 +24,8 @@
 安装需要的依赖
 
 ```shell
-# matplotlib/plotly 都是数据可视化 python库
-# 区别是: plotly支持交互可视化，其输出格式哟html、svg、png等多种格式
-# 这要比matplotlib多。当然plotly更新
-# 两者更多区别，参考一下这个文章
-# https://zhuanlan.zhihu.com/p/148748125
+# 图表格工具
 python -m pip install --user matplotlib
-# plotly入门文档可以参考这个文章
-# https://plotly.com/python/getting-started/
-# 关于plotly中更多的图表设置，参考这个地址
-# https://plotly.com/python/reference/
 python -m pip install --user plotly
 # pandas 是数据分析工具
 python -m pip install --user pandas
@@ -41,7 +33,19 @@ python -m pip install --user pandas
 python -m pip install --user requests
 ```
 
-在命令行里直接 `python` + 文件名运行，主要代码文件如下:
+`matplotlib`、`plotly` 都是数据可视化 `python` 库
+
+区别是: `plotly` 支持交互可视化，其输出格式哟 `html`、`svg`、`png` 等多种格式
+
+这要比 `matplotlib` 多。当然 `plotly` 更新，所以在社区积累支持上，可能就不够。
+
+两者更多区别，参考一下这个[文章](https://zhuanlan.zhihu.com/p/148748125)
+
+`plotly` 入门文档可以参考: [plotly user with python](https://plotly.com/python/getting-started/)
+
+关于 `plotly` 中更多的图表设置，可参考: [plotly reference](https://plotly.com/python/reference/)
+
+依赖安装玩会后，可通过在命令行里直接 `python` + 文件名运行程序，主要代码文件如下:
 
 `scatter_squares.py` `mpl_squares.py`: 生成线图
 
@@ -69,22 +73,25 @@ python -m pip install --user requests
 
 `hn_article.py`: 从 Hacker News 网站批量获取数据
 
-# 效果
+# 运行效果
 
 ![点图-颜色映射](./images/squares_plot.png)
 
-<p align='center'>线图，颜色渐变</p>
+<p align='center'>线图，颜色渐变(scatter_squares.py)</p>
+<br/>
 
 ![随机图形生成](./images/random_walk.png)
 
-<p align='center'>（随机漫步）随机图形生成</p>
+<p align='center'>（随机漫步）随机图形生成(rw_visual.py)</p>
+<br/>
 
 <div style="display:inline-block">
     <img src="./images/dice_result_frequencies.png" alt="骰子结果概率" style="width: 45%; height: auto;" />
-    <img src="./images/two_dices_result_frequencies.png" alt="两个骰子结果之和概率" style="width: 45%; height: auto;" />
+    <img src="./images/two_dices_result_frequencies.jpg" alt="两个骰子结果之和概率" style="width: 45%; height: auto;" />
 </div>
 
-<p align='center'>骰子结果概率</p>
+<p align='center'>骰子结果概率(die_visual.py / dice_visual.py)</p>
+<br/>
 
 <div style="display:inline-block">
     <img src="./images/ak_temp_7_2.png" alt="阿拉斯加7月最高温度线图" style="width: 30%; height: auto;" />
@@ -92,16 +99,15 @@ python -m pip install --user requests
     <img src="./images/ak_temp_7_4.png" alt="阿拉斯加年度最高低温度线图" style="width: 30%; height: auto;" />
 </div>
 
-<p align='center'>阿拉斯加温度线图</p>
+<p align='center'>阿拉斯加温度线图(sitka_highs.py)</p>
+<br/>
 
 <div style="display:inline-block">
     <img src="./images/global_eq_scatters.png" alt="全球地震散点图" style="width: 45%; height: auto;" />
     <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 45%; height: auto;" />
 </div>
 
-<p align='center'>全球地震散点图</p>
-
-# 扩展
+<p align='center'>全球地震散点图(eq_explore_data.py)</p>
 
 # Tips
 
@@ -112,5 +118,3 @@ python -m pip install --user requests
 <!-- 阿拉斯加锡特卡2018年1月1日天气数据 -->
 "USW00025333", "SITKA AIRPORT, AK US", "2018-01-01", "0.45",, "48", "38"
 ```
-
-# bugfix
