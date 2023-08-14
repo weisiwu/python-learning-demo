@@ -80,20 +80,15 @@ python -m pip install --user requests
 <p align='center'>（随机漫步）随机图形生成</p>
 
 <div style="display:inline-block">
-    <a href='./d6.html' style='text-align: center;'>
+    <a href='./d6.html' style='text-align: center;' align='center'>
         <img src="./images/dice_result_frequencies.png" alt="骰子结果概率" style="width: 45%; height: auto;" /><br />
     </a>
-</div>
-
-<p align='center'>骰子结果概率</p>
-
-<div style="display:inline-block">
-    <a href='./two_d6.html' style='text-align: center;'>
+    <a href='./two_d6.html' style='text-align: center;' align='center'>
         <img src="./images/two_dices_result_frequencies.png" alt="两个骰子结果之和概率" style="width: 45%; height: auto;" /><br />
     </a>
 </div>
 
-<p align='center'>两个骰子结果之和概率</p>
+<p align='center'>骰子结果概率</p>
 
 <div style="display:inline-block">
     <img src="./images/ak_temp_7_2.png" alt="阿拉斯加7月最高温度线图" style="width: 30%; height: auto;" />
@@ -104,10 +99,8 @@ python -m pip install --user requests
 <p align='center'>阿拉斯加温度线图</p>
 
 <div style="display:inline-block">
-    <a href='./two_d6.html' style='text-align: center;'>
+    <a href='./gloabl_earthquakes.html' style='text-align: center;' align='center'>
         <img src="./images/global_eq_scatters.png" alt="全球地震散点图" style="width: 45%; height: auto;" /><br />
-    </a>
-    <a href='./two_d6.html' style='text-align: center;'>
         <img src="./images/global_eq_scatters_2.png" alt="全球地震散点图-样式优化" style="width: 45%; height: auto;" /><br />
     </a>
 </div>
