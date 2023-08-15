@@ -2,7 +2,7 @@
 
 # 项目介绍
 
-[《python 编程：入门到实践》](https://www.ituring.com.cn/book/2784)第二版 第十二章项目 - 数据可视化部分。各章节内容如下
+[《python 编程：入门到实践》](https://www.ituring.com.cn/book/2784)第二版 第二部分项目，项目 2 数据可视化部分。各章节如下
 
 **第 15 章 生成数据**
 
@@ -31,6 +31,9 @@ python -m pip install --user plotly
 python -m pip install --user pandas
 # 网络请求
 python -m pip install --user requests
+
+# 将依赖存储到文件中
+pip freeze > requirements.txt
 ```
 
 `matplotlib`、`plotly` 都是数据可视化 `python` 库
@@ -45,7 +48,9 @@ python -m pip install --user requests
 
 关于 `plotly` 中更多的图表设置，可参考: [plotly reference](https://plotly.com/python/reference/)
 
-依赖安装玩会后，可通过在命令行里直接 `python` + 文件名运行程序，主要代码文件如下:
+## 主要文件
+
+安装依赖后，可通过在命令行里直接 `python` + 文件名运行程序，主要代码文件如下:
 
 `scatter_squares.py` `mpl_squares.py`: 生成线图
 
