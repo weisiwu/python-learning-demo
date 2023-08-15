@@ -82,3 +82,8 @@ python manage.py runserver
 <img src='./images/site_1.png' alt='网站样式' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
 <p align='center'>网站样式</p>
+
+```shell
+# 启动一个名为learning_logs的应用，这条命令会创建应用程序所需的基础设施
+python manage.py startapp learning_logs
+```
