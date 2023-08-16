@@ -87,3 +87,81 @@ python manage.py runserver
 # 启动一个名为learning_logs的应用，这条命令会创建应用程序所需的基础设施
 python manage.py startapp learning_logs
 ```
+
+这里涉及到了 2 个级别: `project` `app`
+
+需要将刚生成的 `app` `learning_logs` 加如到之前的 `project` `learning_log` 之中
+
+同时需要为新创建的 `learning_logs`建立表来存储对应的数据。
+
+```shell
+# makemigrations命令让django根据app设置去确定如何修改数据库，并生成对应的python脚本
+python manage.py makemigrations learning_logs
+# 执行上面生成的python脚本，才能最终完成对数据库的修改
+python manage.py migrate
+```
+
+<img src='./images/sqlite_migrate_1.png' alt='生成修改数据库的存储进程' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+<p align='center'>生成修改数据库的存储进程</p>
+
+<img src='./images/sqlite_migrate_2.png' alt='应用存储进程修改表' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+<p align='center'>应用存储进程修改表</p>
+
+上面称呼生成的 [python 脚本](./learning_logs/migrations/0001_initial.py) 为[存储进程](https://zh.wikipedia.org/zh-hans/%E5%AD%98%E5%82%A8%E7%A8%8B%E5%BA%8F)，只是因为它和通过 `mysql dump` 倒出的存储进程功能类似。
+
+这里可以看到，`Topic`在书中被定义为学习笔记，每次要对学习笔记这个模型进行修改的时候，都需要通过 `manage.py` 先对 `learning_logs` app 执行 `makemigrations`，然后再执行生成的脚本去修改数据。
+
+上面是如何通过`django`去一个一个实例模型的定义，定义好的模型和数据表，需要用户管理。先行创建一个超级用户:
+
+```shell
+python manage.py createsuperuser
+```
+
+<img src='./images/admin_user.png' alt='创建管理员' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+<p align='center'>创建管理员</p>
+
+`admin.py`: 将注册的模型，挂载到管理网站
+
+`models.py`: 定义所需要的数据模型
+
+```shell
+# 启动服务器
+python manage.py runserver
+```
+
+打开 [管理后台](http://localhost:8000/admin)，输入用户名和密码登录
+
+<img src='./images/admin_user.png' alt='登录界面' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+<p align='center'>登录界面</p>
+
+<img src='./images/backend_1.png' alt='管理后台' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+<p align='center'>管理后台</p>
+
+后面书中又在 [models.py](./learning_logs/models.py) 中创建了 `Entry` 类，并进行了数据创建。
+
+```shell
+python manage.py makemigrations learning_logs
+python manage.py migrate
+```
+
+`django`提供了交互式终端，可以用来实时查看数据。
+
+```shell
+python manage.py shell
+# 进入python shell
+>>> from leaning_logs.model import Topic
+>>> Topic.objects.all()
+# 获取所有主题
+<QuerySet [<Topic: Chess>, <Topic: Rock Climbing>]>
+>>> topics = Topic.objects.all()
+>>> for topic in topics:
+>>>     print(topic.id, topic)
+# 遍历并输出
+1 Chess
+2 Rock Climbing
+```
