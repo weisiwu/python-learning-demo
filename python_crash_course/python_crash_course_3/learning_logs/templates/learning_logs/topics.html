@@ -1,0 +1,12 @@
+<!-- @format -->
+{% extends 'learning_logs/base.html' %} {% block content %}
+<p>Topics</p>
+<ul>
+  {% comment %} topics 是从render函数的三参中传递而来 {% endcomment %} {% for topic in topics %} {% comment %}
+  作为变量，被如此直接插入到模板，和一般的代码有所不同 {% endcomment %}
+  <li>{{topic}}</li>
+  {% comment %} 模板标签，表示为空的时候，Django需要怎么办 {% endcomment %} {% empty %}
+  <li>No Topic have been added yet</li>
+  {% endfor %}
+</ul>
+{% endblock content %}

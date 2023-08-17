@@ -1,0 +1,8 @@
+<!-- @format -->
+{% comment %} {%%} 是标签模板，里面是代码逻辑 {% endcomment %}
+{% comment %} 这里的 learning_logs 是命名空间，index 是刚才命名的 url 模式（匹配规则） {% endcomment %}
+<p><a href={% url 'learning_logs:index' %}>Learning Log</a></p>
+<p><a href={% url 'learning_logs:topics' %}>Topic</a></p>
+
+{% comment %} 占位符，由子模板实现 {% endcomment %}
+{% block content %}{% endblock content %}
