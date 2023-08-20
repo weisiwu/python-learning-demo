@@ -19,6 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # 注册用户的APP url
+    path("users/", include("users.urls")),
     # 在项目的文件夹中再创建一个 urls，用于管理APP的路由（urls）
     path("", include("learning_logs.urls")),
 ]

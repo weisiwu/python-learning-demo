@@ -179,3 +179,20 @@ python manage.py shell
 3、编写模板
 
 > 模板定义页面的整体结构
+
+```shell
+python manage.py startapp  users
+
+python manage.py shell
+```
+
+```shell
+>>> from django.contrib.auth.models import User
+>>> User.objects.all()
+<QuerySet [<User: ll_admin>, <User: admin>]>
+>>> for user in User.objects.all():
+...     print(user.username, user.id)
+...
+ll_admin 1
+admin 2
+```

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -8,6 +9,7 @@ class Topic(models.Model):
     # https://docs.djangoproject.com/en/4.2/ref/models/fields/
     text = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # 该函数返回的值，为最终Topic模块的展示
     def __str__(self) -> str:

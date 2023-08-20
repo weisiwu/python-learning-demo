@@ -1,0 +1,11 @@
+<!-- @format -->
+{% extends 'learning_logs/base.html' %} {% block content %} {% if form.errors %} {% endif %}
+<form
+  action="{% url 'users:register' %}"
+  method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button name="submit">Register</button>
+  {% comment %} 在登录成功后，告诉django重定向什么方向 {% endcomment %} <input type='hidden' name='next' value={% url
+  'learning_logs:index' %} />
+</form>
+{% endblock content %}

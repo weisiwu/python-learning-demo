@@ -1,0 +1,11 @@
+<!-- @format -->
+{% extends 'learning_logs/base.html' %} {% block content %}
+<p><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p>
+<p>Edit Entry:</p>
+<form
+  action="{% url 'learning_logs:edit_entry' topic.id %}"
+  method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button name="submit">Save Changes</button>
+</form>
+{% endblock content %}

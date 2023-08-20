@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# 我的设置
+LOGIN_URL = "users:login"
 
 # Application definition
 
@@ -39,6 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 我的应用程序
     "learning_logs",
+    "users",
+    # 第三方应用程序
+    "bootstrap4",
 ]
 
 MIDDLEWARE = [
