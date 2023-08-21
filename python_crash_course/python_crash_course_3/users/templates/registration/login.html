@@ -1,16 +1,20 @@
 <!-- @format -->
-{% extends 'learning_logs/base.html' %} {% block content %} {% if form.errors %}
-<p>Your username and password did't mattch, Please try again.</p>
-{% endif %}
+{% extends 'learning_logs/base.html' %} {% load bootstrap4 %} {% block page_header %}
+<h2>Log in to your account.</h2>
+{% endblock page_header %} {% block content %}
 <form
   action="{% url 'users:login' %}"
   method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button name="submit">log in</button>
-  {% comment %} 在登录成功后，告诉django重定向什么方向 {% endcomment %}
+  {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+  <button
+    name="submit"
+    class="btn btn-primary">
+    Log in
+  </button>
+  {% endbuttons %}
   <input
     type="hidden"
     name="next"
     value="{% url 'learning_logs:index' %}" />
 </form>
-{% endblock content %} {% comment %} 这些变量从view调用的时候传来，django模板中，有特殊的语法 {% endcomment %}
+{% endblock content %}

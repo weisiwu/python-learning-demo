@@ -1,18 +1,18 @@
 <!-- @format -->
-{% extends 'learning_logs/base.html' %} {% block content %}
-<p>Topic: {{ topic }}</p>
-<p>Entries:</p>
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h3>{{topic}}</h3>
+{% endblock page_header %} {% block content %}
 <p><a href="{% url 'learning_logs:new_entry' topic.id %}"> Add new entry</a></p>
-<ul>
-  {% for entry in entries %}
-  <li>
-    {% comment %} 这里要特别注意， date:'M d, Y H:i' ,如果在date: 后多加一个空格，就会报错 {% endcomment %}
-    <p>{{ entry.date_added|date:'M d, Y H:i' }}</p>
-    <p>{{ entry.text|linebreaks }}</p>
-    <p><a href="{% url 'learning_logs:edit_entry' entry.id %}">Edit Entry</a></p>
-  </li>
-  {% empty %}
-  <li>There are no entries for this topic yet.</li>
-  {% endfor %}
-</ul>
-{% endblock content %} {% comment %} 这些变量从view调用的时候传来，django模板中，有特殊的语法 {% endcomment %}
+
+{% for entry in entries %}
+<div class="card mb-3">
+  {% comment %} 这里要特别注意， date:'M d, Y H:i' ,如果在date: 后多加一个空格，就会报错 {% endcomment %}
+  <h4 class="card-header">
+    {{ entry.date_added|date:'M d, Y H:i' }}
+    <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a></small>
+  </h4>
+  <div class="card-body">{{ entry.text|linebreaks }}</div>
+</div>
+{% empty %}
+<p>There are no entries for this topic yet.</p>
+{% endfor %} {% endblock content %}

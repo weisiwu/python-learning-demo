@@ -33,17 +33,18 @@ LOGIN_URL = "users:login"
 # Application definition
 
 INSTALLED_APPS = [
+    # 我的应用程序
+    "learning_logs",
+    "users",
+    # 第三方应用程序
+    "bootstrap4",
+    # 默认自带应用
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # 我的应用程序
-    "learning_logs",
-    "users",
-    # 第三方应用程序
-    "bootstrap4",
 ]
 
 MIDDLEWARE = [
