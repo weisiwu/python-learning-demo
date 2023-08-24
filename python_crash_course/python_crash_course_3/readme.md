@@ -1,14 +1,44 @@
 <!-- @format -->
 
+# 项目介绍
+
+[《python 编程：入门到实践》](https://www.ituring.com.cn/book/2784)第二版 第二部分项目，项目 3 Web 应用程序部分。
+
+该部分通过 `django` 框架展示了如何快速的搭建 web 服务器，以及配置路由、数据库、用户权限等。各章节如下:
+
+**第 18 章 从 Django 入手**
+介绍了如何使用`python`在本地运行一个网站，以及如何在 `django` 中编写模板，并展示相应内容。
+
+**第 19 章 用户账户**
+小节内介绍了，`django`中如何配置用户，以及对网站内容如何配置实现区分用户进行展示。
+
+**第 20 章 设置应用程序样式并部署**
+该小节内，演示了通过 `django-bootstrap4`插件，将已有的网页美化。以及如何在`heroku`开通托管部署。
+
+# 说在前面
+
+还是和前面的章节一样，先说明下文的主要目标。读者可以通过此段文字决定是否要继续读下去。
+
+> django 框架，是一个便捷的 web 框架，能给你迅速创建专属的 CMS(内容管理系统)。有后台，有前台。里面从用户权限，到数据表创建管理。都被做到了一起。
+> 对于一个**希望迅速启动的项目**而言，是非常高效的。当然，不排除有其他框架做的更好。
+> 高效的背面,是后续扩张的困难。
+> 所以要先明确，你希望用它做什么， **技术应当被应用，而不仅仅是为了学习而学习。**
+
+# 运行
+
+### 1、创建并激活虚拟环境
+
+考虑到同一个机器上可能安装了多个版本的 `python` 以及相同包的不同版本，为了避免互相冲突干扰。书中推荐我们为接下来的 web 项目创建专属的虚拟环境，虚拟环境可指定虚拟环境中的`python`版本，并且互相独立，他处（包括宿主自身）的环境变化都不会影响到虚拟环境内部（简言之，就是一个独立的虚拟机）。
+
 ```shell
-# 创建 ll_env 虚拟环境
+# 创建名为 ll_env 虚拟环境
 python -m  venv ll_env
 
 # 激活虚拟环境
 # windows
 ll_env\Scripts\activate
 # mac os
-source ll_env/bin/activate
+# source ll_env/bin/activate
 
 # 虚拟环境激活后，会在命令行最开始展示（ll_env）,windows下类似于这个效果
 # (ll_env) C:\Users\Administrator\Desktop\github\python-learning-demo\python_crash_course\python_crash_course_3>
@@ -20,7 +50,9 @@ pip install django
 
 `venv` 是 `python`内部用于创建虚拟环境的模块。简单使用介绍可以参考: [什么是 Venv](https://zhuanlan.zhihu.com/p/285631652)
 
-我是在`windows`下运行的，遇到了如下错误:
+### 2、遇到的问题
+
+在`windows`下运行，可能会遇到了如下错误:
 
 ```text
 ll_env\Scripts\Activate : 无法加载文件 C:\Users\Administrator\Desktop\github\python-learning-demo\python_crash_course\python_crash_course_3\ll_env\Scripts\Activate.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。
@@ -35,53 +67,61 @@ ll_env\Scripts\Activate : 无法加载文件 C:\Users\Administrator\Desktop\gith
 
 ![错误原因](./images/root_cause.png)
 
-<p align='center'>错误原因</p>
+**<p align='center'>错误原因</p>**
 
-<img src='./images/run_as_administrator.jpg' alt='以管理员身份运行' style='width: 60%; height: auto; text-align: center; margin-left: 20%;' />
+<img src='./images/run_as_administrator.jpg' alt='以管理员身份运行' style='width: 40%; height: auto; text-align: center; margin-left: 30%;' />
 
-<p align='center'>以管理员身份运行</p>
+**<p align='center'>以管理员身份运行</p>**
+
+### 3、初始化项目
 
 ```shell
 # 使用django创建项目
 django-admin startproject learning_log .
 ```
 
-<img src='./images/django_1.png' alt='django创建的文件' style='width: 40%; height: auto; text-align: center; margin-left: 30%;' />
+命令执行完毕后，查看新出现的目录，如下:
 
-<p align='center'>django创建的文件</p>
+<img src='./images/django_1.png' alt='django创建的文件' style='width: 30%; height: auto; text-align: center; margin-left: 35%;' />
 
-| 文件          | 作用                                                                                                |
-| ------------- | --------------------------------------------------------------------------------------------------- |
-| `settings.py` | 指定 `Django`如何与系统之间交互以及如何管理项目                                                     |
-| `urls.py`     | 告诉 `Django` 应该创建哪些页面来响应浏览器的请求                                                    |
-| `wsgi.py`     | 帮助 `Django` 向浏览器提供它创建的文件，是 web 服务器网关接口（web server gateway interface）的缩写 |
-| `manage.py`   | 控制 `Django` 生成的网站，根据不同的子命令，选择进一步执行的任务                                    |
+**<p align='center'>django 创建的文件</p>**
 
-网站需要数据库存储数据，下面来创建数据库
+| 文件          | 作用                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `settings.py` | 指定 `Django`如何与系统之间交互以及如何管理项目                                                                          |
+| `urls.py`     | 告诉 `Django` 应该创建哪些页面来响应浏览器的请求                                                                         |
+| `wsgi.py`     | 帮助 `Django` 向浏览器提供它创建的文件，是 web 服务器网关接口（web server gateway interface）的缩写                      |
+| `manage.py`   | 控制 `Django` 生成的网站，根据不同的子命令，选择进一步执行的任务（_后续的启动服务器、迁移数据等操作都是通过调用该文件_） |
+
+网站需要数据库存储数据，下面来创建数据库(在本文中是 `sqlite`)
 
 ```shell
+# migrate 是迁移的意思，但实际上，首次执行migrate 会让django确保数据库和项目当前状态匹配
+# 换言之，django 将会新建数据库和其中的表
 python manage.py migrate
 ```
 
-<img src='./images/sqlite_migrate.png' alt='创建数据库' style='width: 100%; height: auto; text-align: center; margin-left: 0%;' />
+<img src='./images/sqlite_migrate.png' alt='创建数据库' style='width: 60%; height: auto; text-align: center; margin-left: 20%;' />
 
-<p align='center'>创建数据库</p>
+**<p align='center'>创建数据库</p>**
 
 在使用 `SQLite`的新项目时，首次执行 `migrate`(迁移)命令时，`Django` 会创建新数据库
 
-启动项目
+接下来，使用这条命令启动项目
 
 ```shell
 python manage.py runserver
 ```
 
-<img src='./images/runserver.png' alt='启动项目' style='width: 100%; height: auto; text-align: center; margin-left: 0%;' />
+<img src='./images/runserver.png' alt='启动项目' style='width: 60%; height: auto; text-align: center; margin-left: 20%;' />
 
-<p align='center'>启动项目</p>
+**<p align='center'>启动项目</p>**
 
-<img src='./images/site_1.png' alt='网站样式' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+启动后，打开 `http://127.0.0.1:8000` 可以看到如下页面效果
 
-<p align='center'>网站样式</p>
+<img src='./images/site_1.png' alt='网站样式' style='width: 40%; height: auto; text-align: center; margin-left: 30%;' />
+
+**<p align='center'>网站样式</p>**
 
 ```shell
 # 启动一个名为learning_logs的应用，这条命令会创建应用程序所需的基础设施
