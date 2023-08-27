@@ -123,6 +123,8 @@ python manage.py runserver
 
 **<p align='center'>网站样式</p>**
 
+### 4、创建应用 learning_logs
+
 然后创建我们的应用：学习笔记（ `learning_logs` ），下面将涉及两个概念， 项目（`project`）、 应用（`app`）
 在一个项目下，可以安装多个应用。下面展示在学习笔记 （ `learning_log` ） 项目中，创建 `users`、`learning_log` 等多个应用。
 
@@ -152,6 +154,8 @@ python manage.py startapp learning_logs
 <img src='./images/add_apps.png' alt='将自己的app添加到项目中' style='width: 50%; height: auto; text-align: center; margin-left: 25%;' />
 
 **<p align='center'>将自己的 app 添加到项目中</p>**
+
+### 5、创建 Topic 数据模型
 
 添加完应用后，继续为应用添加数据模型，数据模型存储在应用文件夹下的 `models.py`。下面为 `learing_logs` 添加一个叫做 `Topic` 的模型，表示学习笔记中的主题。
 
@@ -195,6 +199,8 @@ python manage.py migrate
 
 上面展示了在`django`中如何定义模型和数据表，这是为了后续存储我们的数据。但应用还需要添加用户，对数据进行管理。先创建一个超级用户:
 
+### 5、创建网站用户和 Entry 数据模型
+
 ```shell
 python manage.py createsuperuser
 ```
@@ -235,6 +241,8 @@ python manage.py runserver
 
 继续创建 `Entry` 数据模型，用来存储分类主题下的实例，最终代码查看: [`models.py`](./learning_logs/models.py)
 
+### 6、通过交互式终端查看数据
+
 这里提下，`django` 也提供了交互式终端，可以用来实时查看数据。
 
 ```shell
@@ -251,6 +259,8 @@ python manage.py shell
 1 Chess
 2 Rock Climbing
 ```
+
+### 7、创建 URL 映射、视图、模板
 
 对网站来说，数据库准备就绪后，就可以开始写后续业务逻辑了，主要有以下这两类:
 
@@ -359,6 +369,8 @@ def topic(request, topic_id):
 
 按照上述步骤继续创建[其他模板](https://github.com/weisiwu/python-learning-demo/tree/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/templates/learning_logs)
 
+### 8、创建管理用户应用并将其和文章数据关联
+
 模板创建完毕后，需要创建用户应用，用于管理后续访问网站的用户，让用户之间的数据彼此隔离。
 
 ```shell
@@ -419,6 +431,8 @@ if topic.owner != request.user:
     # raise 抛出异常
     raise Http404
 ```
+
+### 9、对网站应用样式模板 Bootstrap4
 
 ```shell
 >>> from django.contrib.auth.models import User
