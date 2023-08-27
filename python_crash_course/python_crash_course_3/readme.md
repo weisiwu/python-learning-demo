@@ -205,6 +205,17 @@ python manage.py createsuperuser
 
 **<p align='center'>创建管理员</p>**
 
+随后，将 `learning_logs` 应用添加到项目中，如下：
+
+```python
+urlpatterns = [
+  # 默认身份验证的UR: 如 login/logout
+  path("", include("django.contrib.auth.urls")),
+]
+```
+
+[代码链接](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_log/urls.py#L23)
+
 修改完数据库、创建用户后需要重启服务器，改动才能生效。
 
 ```shell
@@ -351,9 +362,62 @@ def topic(request, topic_id):
 模板创建完毕后，需要创建用户应用，用于管理后续访问网站的用户，让用户之间的数据彼此隔离。
 
 ```shell
+# 创建 users 应用
 python manage.py startapp users
+```
 
-python manage.py shell
+然后将 `users` 添加到项目中
+
+<img src='./images/add_user_app.png' alt='添加 users' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>添加 users</p>**
+
+给 `users` 应用下的 url 链接配置设置到文件中
+
+<img src='./images/project_urls.png' alt='将应用 URL 添加到项目 URL 配置中' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>将应用 URL 添加到项目 URL 配置中</p>**
+
+`users` 应用的创建不赘述，
+
+在 `views.py` 中，有这样的代码
+
+```python
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def topic(request, topic_id):
+  ...
+  return render(request, "learning_logs/topic.html", context)
+```
+
+`@login_required` 是 `python` 的装饰器语法，这会让 `python` 在运行 `topic` 函数前，先运行 `login_required` 函数。
+`login_required` 用于检查用户是否登录，以登录才会运行 `topic`，否则重定向到登录页面。 而重定向的逻辑， 则同样是通过配置，由 `django` 生成。
+在 `learning_log` 项目下的 `settings.py` 进行配置：
+
+```python
+# users 应用下 名为 login 的路由
+LOGIN_URL = "users:login"
+```
+
+还缺少最关键的一步，目前所有的数据，和用户数据没有关联。为此需要将 `User` 应用关联到 `learning_logs` 应用。
+这里需要用到 [外键](https://zh.wikipedia.org/zh-hans/%E5%A4%96%E9%94%AE)
+
+如下:
+
+<img src='./images/project_urls.png' alt='add_foreign_key' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>add_foreign_key</p>**
+
+创建完外键后，需要重新迁移数据库，才能生效。  
+在完成关联后，就可以查询到每个文档、主题的用户。最后一步需要过滤，防止用户访问到非本人的文档。  
+[代码链接](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L33)
+
+```python
+if topic.owner != request.user:
+    # 非用户名下文章，不允许访问，范围404
+    # raise 抛出异常
+    raise Http404
 ```
 
 ```shell
