@@ -123,16 +123,43 @@ python manage.py runserver
 
 **<p align='center'>网站样式</p>**
 
+然后创建我们的应用：学习笔记（ `learning_logs` ），下面将涉及两个概念， 项目（`project`）、 应用（`app`）
+在一个项目下，可以安装多个应用。下面展示在学习笔记 （ `learning_log` ） 项目中，创建 `users`、`learning_log` 等多个应用。
+
+| 应用名称     | 作用                              |
+| ------------ | --------------------------------- |
+| learning_log | 学习笔记网站                      |
+| users        | 学习网站用户管理                  |
+| bootstrap4   | 网站样式主题 ，控制各个页面的样子 |
+
 ```shell
-# 启动一个名为learning_logs的应用，这条命令会创建应用程序所需的基础设施
+# 创建一个名为learning_logs的应用
 python manage.py startapp learning_logs
 ```
 
-这里涉及到了 2 个级别: `project` `app`
+应用目录下的文件大致如下
 
-需要将刚生成的 `app` `learning_logs` 加如到之前的 `project` `learning_log` 之中
+| 文件        | 作用                                                                      |
+| ----------- | ------------------------------------------------------------------------- |
+| `admin.py`  | 将注册的数据模型，挂载到应用中                                            |
+| `apps.py`   | 定义应用相关配置，本文中没有用到                                          |
+| `models.py` | 定义所需要的数据模型                                                      |
+| `urls.py`   | 定义应用 leading_logs 下的 URL，返回 `views.py` 中定义的 `view` 对象      |
+| `views.py`  | 定义各个路径 URL 对应的视图对象，会将请求参数和其他参数一并传入模板文件中 |
 
-同时需要为新创建的 `learning_logs`建立表来存储对应的数据。
+生成的应用需要添加到项目中，打开 `learning_log` 下的 `settings.py` 在其中 `INSTALLED_APPS` 添加上自己应用的名称。
+
+<img src='./images/add_apps.png' alt='将自己的app添加到项目中' style='width: 50%; height: auto; text-align: center; margin-left: 25%;' />
+
+**<p align='center'>将自己的 app 添加到项目中</p>**
+
+添加完应用后，继续为应用添加数据模型，数据模型存储在应用文件夹下的 `models.py`。下面为 `learing_logs` 添加一个叫做 `Topic` 的模型，表示学习笔记中的主题。
+
+<img src='./images/learing_logs_topic.png' alt='Topic模型的定义' style='width: 50%; height: auto; text-align: center; margin-left: 25%;' />
+
+**<p align='center'>Topic 模型的定义</p>**
+
+但上面并不会真正在数据库中创建表格，执行下面的语句继续创建数据表:
 
 ```shell
 # makemigrations命令让django根据app设置去确定如何修改数据库，并生成对应的python脚本
@@ -141,19 +168,32 @@ python manage.py makemigrations learning_logs
 python manage.py migrate
 ```
 
+`makemigrations` 会生成类似存储进程的文件（ `db.sqlite3` ），内部大概是这样的，可以看到里面有 SQL 语句。
+
+<img src='./images/sqlite_db_proceed.png' alt='存储数据的文件' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>存储数据的文件</p>**
+
+在 `learning_logs` 应用中执行 `makemigrations` 生成改动，最后再执行 `migrate` 将改动输入到数据库中。创建成功，执行结果如下图:
+
 <img src='./images/sqlite_migrate_1.png' alt='生成修改数据库的存储进程' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-<p align='center'>生成修改数据库的存储进程</p>
+**<p align='center'>生成修改数据库的存储进程</p>**
 
 <img src='./images/sqlite_migrate_2.png' alt='应用存储进程修改表' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-<p align='center'>应用存储进程修改表</p>
+**<p align='center'>应用存储进程修改表</p>**
 
-上面称呼生成的 [python 脚本](./learning_logs/migrations/0001_initial.py) 为[存储进程](https://zh.wikipedia.org/zh-hans/%E5%AD%98%E5%82%A8%E7%A8%8B%E5%BA%8F)，只是因为它和通过 `mysql dump` 倒出的存储进程功能类似。
+后续如果需要对 `Topic` 博客主题进行修改（如扩增字段），都要先在应用（ `learning_logs` ）下的 `models.py` 中修改、新增对应的表。然后依序分别执行 `makemigrations` `migrate` 将改动落实到数据库中。
 
-这里可以看到，`Topic`在书中被定义为学习笔记，每次要对学习笔记这个模型进行修改的时候，都需要通过 `manage.py` 先对 `learning_logs` app 执行 `makemigrations`，然后再执行生成的脚本去修改数据。
+在学习笔记应用中，我们会创建如下的表（数据模型）：
 
-上面是如何通过`django`去一个一个实例模型的定义，定义好的模型和数据表，需要用户管理。先行创建一个超级用户:
+| 模型名称 | 定义                                       |
+| -------- | ------------------------------------------ |
+| Topic    | 学习日志博客分类主题，例如国际象棋、攀岩   |
+| Entry    | 主题下的实例，比如国际象棋下的学习笔记一篇 |
+
+上面展示了在`django`中如何定义模型和数据表，这是为了后续存储我们的数据。但应用还需要添加用户，对数据进行管理。先创建一个超级用户:
 
 ```shell
 python manage.py createsuperuser
@@ -161,11 +201,7 @@ python manage.py createsuperuser
 
 <img src='./images/admin_user.png' alt='创建管理员' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-<p align='center'>创建管理员</p>
-
-`admin.py`: 将注册的模型，挂载到管理网站
-
-`models.py`: 定义所需要的数据模型
+**<p align='center'>创建管理员</p>**
 
 ```shell
 # 启动服务器
