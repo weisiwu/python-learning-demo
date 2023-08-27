@@ -333,7 +333,7 @@ def topic(request, topic_id):
 
 #### 3、编写模板
 
-模板名称为：`topic.html`
+模板名称为：`topic.html`，这里需要注意一个问题，应用的模板文件需要放到 `templates` 文件夹，同时注意文件不是直接放到 `templates` 下，而需要再 `template` 下创建一个 `learning_logs` 文件，然后把文件放到其中（这是 `django` 的规则，在应用的 `templates` 下创建一个和项目同名的 `learning_logs` 文件夹）。
 
 ```html
 <!-- 页面继承base.html -->
@@ -404,7 +404,7 @@ def topic(request, topic_id):
 ```
 
 `@login_required` 是 `python` 的装饰器语法，这会让 `python` 在运行 `topic` 函数前，先运行 `login_required` 函数。
-`login_required` 用于检查用户是否登录，以登录才会运行 `topic`，否则重定向到登录页面。 而重定向的逻辑， 则同样是通过配置，由 `django` 生成。
+`login_required` 用于检查用户是否登录，已登录才会运行 `topic`，否则重定向到登录页面。 而重定向的逻辑， 则同样是通过配置，由 `django` 生成。
 在 `learning_log` 项目下的 `settings.py` 进行配置：
 
 ```python
@@ -417,9 +417,9 @@ LOGIN_URL = "users:login"
 
 如下:
 
-<img src='./images/project_urls.png' alt='add_foreign_key' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+<img src='./images/project_urls.png' alt='将用户和文档添加关联' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-**<p align='center'>add_foreign_key</p>**
+**<p align='center'>将用户和文档添加关联</p>**
 
 创建完外键后，需要重新迁移数据库，才能生效。  
 在完成关联后，就可以查询到每个文档、主题的用户。最后一步需要过滤，防止用户访问到非本人的文档。  
@@ -434,13 +434,17 @@ if topic.owner != request.user:
 
 ### 9、对网站应用样式模板 Bootstrap4
 
-```shell
->>> from django.contrib.auth.models import User
->>> User.objects.all()
-<QuerySet [<User: ll_admin>, <User: admin>]>
->>> for user in User.objects.all():
-...     print(user.username, user.id)
-...
-ll_admin 1
-admin 2
+三方应用和我们自己创立的应用一样，都需要再项目下注册:
+<img src='./images/inject_bootstrap4.png' alt='注册 bootstrap4' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>注册 bootstrap4</p>**
+
+还是以 `topic.html` 为例，在父模板 `base.html` 中引入 `bootstrap4`
+
+```python
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en"></html>
 ```
+
+至于 `bootstrap4` 的用法，可参考这个文档: [bootstrap4](https://getbootstrap.com/docs/3.3/)
