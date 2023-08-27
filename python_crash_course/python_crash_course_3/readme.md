@@ -184,7 +184,7 @@ python manage.py migrate
 
 **<p align='center'>应用存储进程修改表</p>**
 
-后续如果需要对 `Topic` 博客主题进行修改（如扩增字段），都要先在应用（ `learning_logs` ）下的 `models.py` 中修改、新增对应的表。然后依序分别执行 `makemigrations` `migrate` 将改动落实到数据库中。
+后续如果需要对 `Topic` 博客主题进行修改（如扩增字段），都要先在应用（ `learning_logs` ）下的 [`models.py`](./learning_logs/models.py) 中修改、新增对应的表。然后依序分别执行 `makemigrations` `migrate` 将改动落实到数据库中。
 
 在学习笔记应用中，我们会创建如下的表（数据模型）：
 
@@ -199,12 +199,16 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+创建用户过程，会要求输入邮箱、用户名、密码等。按要求输入后，即可创建用户。
+
 <img src='./images/admin_user.png' alt='创建管理员' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
 **<p align='center'>创建管理员</p>**
 
+修改完数据库、创建用户后需要重启服务器，改动才能生效。
+
 ```shell
-# 启动服务器
+# 重启服务器
 python manage.py runserver
 ```
 
@@ -212,20 +216,15 @@ python manage.py runserver
 
 <img src='./images/admin_user.png' alt='登录界面' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-<p align='center'>登录界面</p>
+**<p align='center'>登录界面</p>**
 
 <img src='./images/backend_1.png' alt='管理后台' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
 
-<p align='center'>管理后台</p>
+**<p align='center'>管理后台</p>**
 
-后面书中又在 [models.py](./learning_logs/models.py) 中创建了 `Entry` 类，并进行了数据创建。
+继续创建 `Entry` 数据模型，用来存储分类主题下的实例，最终代码查看: [`models.py`](./learning_logs/models.py)
 
-```shell
-python manage.py makemigrations learning_logs
-python manage.py migrate
-```
-
-`django`提供了交互式终端，可以用来实时查看数据。
+这里提下，`django` 也提供了交互式终端，可以用来实时查看数据。
 
 ```shell
 python manage.py shell
@@ -242,22 +241,117 @@ python manage.py shell
 2 Rock Climbing
 ```
 
-使用 `djange` 创建页面，一般有以下三个步骤（顺序无关）
+对网站来说，数据库准备就绪后，就可以开始写后续业务逻辑了，主要有以下这两类:
+
+1. 相应 URL 的逻辑，根据 URL 不同，调用不同的服务逻辑
+2. 不同 URL 对应的页面视图逻辑，和前端（jser）常写的 `html` 类似
+
+后面针对学习笔记网站的每个页面，我们都会按照如下步骤进行创建。
 
 1、定义 `URL`
 
 > 每个 `URL` 都被映射到特定的视图
 
-2、编写视图
+2、编写视图（ `view` ）
 
 > 视图获取并处理页面所需的数据
 
-3、编写模板
+3、编写模板 ( `template` )
 
 > 模板定义页面的整体结构
 
+学习笔记包含如下页面:
+
+| 页面名称                 | URL                        | 视图                                                                                                                                                                                     |
+| ------------------------ | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 网站首页                 | ""                         | [ `views.index` ](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L11)    |
+| 所有主题类型的列表页     | topics/                    | [`views.topics`](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L20)     |
+| 特定主题类型的详情页面   | topics/<int:topic_id>/     | [`views.topic`](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L30)      |
+| 用于添加新主题类型的页面 | new_topic/                 | [`views.new_topic`](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L46)  |
+| 用于添加主题下实例的页面 | new_entry/<int:topic_id>/  | [`views.new_entry`](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L66)  |
+| 用于编辑主题下实例的页面 | edit_entry/<int:entry_id>/ | [`views.edit_entry`](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/views.py#L90) |
+
+下面，以 `topics/int:topic_id/` 为例，讲解一下，如何添加页面。
+
+#### 1、定义 URL
+
+<img src='./images/topic_url.png' alt='定义前往的主题类型的路由' style='width: 80%; height: auto; text-align: center; margin-left: 10%;' />
+
+**<p align='center'>定义前往的主题类型的路由</p>**
+
+代码位置: [ `topics/<int:topic_id>/` ](https://github.com/weisiwu/python-learning-demo/blob/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/urls.py#L16)
+
+#### 2、编写视图
+
+在 `views.py` 中注册处理 `topics/<int:topic_id>/` 的逻辑。
+
+```python
+# 作为views，实际上。返回具体视图和模板，并组装数据。
+# 在运行topic函数前，先下运行 login_required
+@login_required
+def topic(request, topic_id):
+    # 显示单个主题以及所有的条目
+    topic = Topic.objects.get(id=topic_id)
+    # 访问其他用户的数据，拒绝访问
+    if topic.owner != request.user:
+        # raise 抛出异常
+        raise Http404
+    # 按照添加的主题类型日期进行排序
+    # date_added前面的-号，表示按降序排列
+    entries = topic.entry_set.order_by("date_added")
+    # 组装数据结构
+    context = {"topic": topic, "entries": entries}
+    # learning_logs/topic.html 是将要范围的模板
+    # context 是要注入到模板中的数据
+    return render(request, "learning_logs/topic.html", context)
+```
+
+上述代码的位置如下:
+
+[ `views.py` ](./learning_logs/views.py)
+
+#### 3、编写模板
+
+模板名称为：`topic.html`
+
+```html
+<!-- 页面继承base.html -->
+<!-- 在 django 中，html文件在返回给用户前，按照django模板规则进行解析 -->
+<!-- {%%} 中可以写逻辑规则 -->
+{% extends 'learning_logs/base.html' %}
+<!-- 定义页面header部分 -->
+{% block page_header %}
+<!-- {{}}中嵌入变量，topic是从views.py中传入的 -->
+<h3>{{topic}}</h3>
+<!-- 表示header部分结束 -->
+{% endblock page_header %} {% block content %}
+<p><a href="{% url 'learning_logs:new_entry' topic.id %}"> Add new entry</a></p>
+<!-- entries 是从views.py中传入的 -->
+{% for entry in entries %}
+<div class="card mb-3">
+  <!-- {% comment %}是在模板中的备注的标签 -->
+  {% comment %} 这里要特别注意， date:'M d, Y H:i' ,如果在date: 后多加一个空格，就会报错 {% endcomment %}
+  <h4 class="card-header">
+    {{ entry.date_added|date:'M d, Y H:i' }}
+    <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a></small>
+  </h4>
+  <!-- 过滤器linebreaks将含过滤付的长文字转换为浏览器可以理解的格式 -->
+  <div class="card-body">{{ entry.text|linebreaks }}</div>
+</div>
+<!-- 表示当前for如果为空的情况，需要怎么展示 -->
+{% empty %}
+<p>There are no entries for this topic yet.</p>
+{% endfor %} {% endblock content %}
+```
+
+[ `topic.html` ](./learning_logs/templates/learning_logs/topic.html)
+
+按照上述步骤继续创建[其他模板](https://github.com/weisiwu/python-learning-demo/tree/70a0da080f313e79999ff27eacca9de7396b36dd/python_crash_course/python_crash_course_3/learning_logs/templates/learning_logs)
+
+模板创建完毕后，需要创建用户应用，用于管理后续访问网站的用户，让用户之间的数据彼此隔离。
+
 ```shell
-python manage.py startapp  users
+python manage.py startapp users
 
 python manage.py shell
 ```
