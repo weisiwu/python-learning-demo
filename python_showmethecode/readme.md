@@ -13,19 +13,19 @@
 
 ![头像](./images/000_demo.png)
 
-**第 0001 题：**
+[**第 0001 题：**](q1)
 
 > 做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用**生成激活码**（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？
 
-**第 0002 题:**
+[**第 0002 题:**](q2)
 
 > 将 0001 题生成的 200 个激活码（或者优惠券）保存到 **MySQL** 关系型数据库中。
 
-**第 0003 题：**
+[**第 0003 题：**](q3)
 
 > 将 0001 题生成的 200 个激活码（或者优惠券）保存到 **Redis** 非关系型数据库中。
 
-**第 0004 题：**
+[**第 0004 题：**](q4)
 
 > 任一个英文的纯文本文件，统计其中的单词出现的个数。
 
@@ -248,6 +248,29 @@ jiangge
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
 
 [pythond-examples]: https://github.com/Yixiaohan/show-me-the-code
-[q0]: ./python_showmethecode/demo00/readme.md
-[q1]: ./python_showmethecode/demo01/readme.md
-[q2]: ./python_showmethecode/demo02/readme.md
+[demo00]: ./python_showmethecode/demo00/readme.md
+[demo01]: ./python_showmethecode/demo01/readme.md
+[demo02]: ./python_showmethecode/demo02/readme.md
+[demo03]: ./python_showmethecode/demo03/readme.md
+[demo04]: ./python_showmethecode/demo04/readme.md
+[demo05]: ./python_showmethecode/demo05/readme.md
+[demo06]: ./python_showmethecode/demo06/readme.md
+[demo07]: ./python_showmethecode/demo07/readme.md
+[demo08]: ./python_showmethecode/demo08/readme.md
+[demo09]: ./python_showmethecode/demo09/readme.md
+[demo10]: ./python_showmethecode/demo10/readme.md
+[demo11]: ./python_showmethecode/demo11/readme.md
+[demo12]: ./python_showmethecode/demo12/readme.md
+[demo13]: ./python_showmethecode/demo13/readme.md
+[demo14]: ./python_showmethecode/demo14/readme.md
+[demo15]: ./python_showmethecode/demo15/readme.md
+[demo16]: ./python_showmethecode/demo16/readme.md
+[demo17]: ./python_showmethecode/demo17/readme.md
+[demo18]: ./python_showmethecode/demo18/readme.md
+[demo19]: ./python_showmethecode/demo19/readme.md
+[demo20]: ./python_showmethecode/demo20/readme.md
+[demo21]: ./python_showmethecode/demo21/readme.md
+[demo22]: ./python_showmethecode/demo22/readme.md
+[demo23]: ./python_showmethecode/demo23/readme.md
+[demo24]: ./python_showmethecode/demo24/readme.md
+[demo25]: ./python_showmethecode/demo25/readme.md
