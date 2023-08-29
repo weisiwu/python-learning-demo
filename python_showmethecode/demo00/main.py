@@ -1,40 +1,65 @@
-#-*-coding: utf-8-*-
 import sys
-# PIL: python imaging library,主要是在python2中使用.在python3中改为pillow库
+import os
+import math
+
+# PIL: python imaging library，又称 pillow
+# python中用于处理图片的库，用法参考
 # https://zhuanlan.zhihu.com/p/58671158
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-# desc: 该脚本执行如下
-# 1、输入你要写的数字
-# 2、输入你要修改的图片: 只能在 demo1.jpg demo2.jpg demo3.jpg
-# 3、获取脚本同目录下的demo.jpg,并做调整生成result.jpg
-# 4、打开生成的图片
+# desc: 该脚本执行后交互如下
+# 1、输入要添加的文字
+# 2、脚本扫码input文件夹下的所有符合要求的图片（png、webp、jpg）
+# 3、将生成的图片放到 output 目录下
+# 4、在终端提示任务完成和是否成功，成功并打开结果文件夹
 
-# 读取输入的数字
-num = input('输入你要显示的数字: ')
-imgName = input('输入对哪个图片进行操作: ')
-# 计算一行展示的文字宽度，防止超出图片可视区域，被遮盖
-# 偏移值因为汉字(全角)和数字、字母(半角)宽度有差异，所以不同。
-strlen = int(len(num)) * 18
+# 读取输入的文字
+text = input("请输入需要展示的数字\n")
 
-# 获取当前路径
-imgPath = sys.path[0]
+# 更方便获取当前路径的方式: sys.path[0]
+base_path = os.path.dirname(__file__)
+input_path = f"{base_path}/input/"
+files = os.listdir(input_path)
 
-# 在内存中打开图像
-targetImg = Image.open(imgPath + '/' + imgName)
-# 设置字体和大小
-font = ImageFont.truetype(imgPath + '/font/msyh.ttc', 18)
-# 获取图片大小
-w, h = targetImg.size
-# 开始添加文字
-draw = ImageDraw.Draw(targetImg)
-draw.text((w - strlen, 0), num, (255, 0, 0), font)
-draw = ImageDraw.Draw(targetImg)
-# 保存新图片
-targetImg.save(imgPath + "/result_" + imgName)
 
-# 展示结果图片
-targetImg.show()
-print("修改图片成功")
+# https://www.programiz.com/python-programming/examples/file-name-from-file-path#google_vignette
+# 从路径中获取文件名称
+# print("无后缀", os.path.splitext(file_name)[0])
+# print("有后缀", os.path.basename(file_name))
+
+
+def handle_img(file_name, text):
+    if file_name == "":
+        raise ValueError("图片路径为空！")
+    elif text == "":
+        raise ValueError("文字为空！")
+    else:
+        # f 这种写法，是python中支持的字符串模板，通过f表示，字符串里嵌入了变量，变量用{}包裹
+        full_file_name = f"{input_path}{file_name}"
+        extension = sys.path[1]
+        print("extension", extension)
+        # 打开图片
+        img = Image.open(full_file_name)
+        w, h = img.size
+        font_size = max(w * 0.05, 18)
+        text_offset_left = int(len(text)) * font_size + font_size
+
+        # 设置字体大小和位置
+        font = ImageFont.truetype(f"{base_path}/font/msyh.ttc", font_size)
+        print("尺寸:", w, h)
+        # 开始重绘图片
+        draw = ImageDraw.Draw(img)
+        # 第一个参数，表示文字的落地位置。x、y坐标构成的元组
+        draw.text((w - text_offset_left, 0), text, (255, 0, 0), font)
+        img.save(f"{base_path}/output/{file_name}")
+
+
+for file_name in files:
+    handle_img(file_name, text)
+
+print("处理完成")
+# https://www.educative.io/answers/what-is-the-oslchflags-method-in-python
+# 报了个错，查查原因
+os.open(f"{base_path}/output/", os.O_RDONLY, 644)
