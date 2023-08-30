@@ -16,7 +16,13 @@
 
 ```python
 python main.py
+# 输入需要添加的文字
+# 输入字体的大小（默认为图片宽度5%）
 ```
+
+<img src='./when_code_run.png' alt='代码运行结果' style='width: 50%; height: auto; text-align: center; margin-left: 25%;' />
+
+**<p align='center'>代码运行结果</p>**
 
 <img src='./input/demo.png' alt='处理前' style='width: 30%; height: auto; text-align: center; margin-left: 35%;' />
 
