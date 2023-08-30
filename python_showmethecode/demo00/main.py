@@ -1,6 +1,6 @@
 import sys
 import os
-import math
+import webbrowser
 
 # PIL: python imaging library，又称 pillow
 # python中用于处理图片的库，用法参考
@@ -59,7 +59,9 @@ def handle_img(file_name, text):
 for file_name in files:
     handle_img(file_name, text)
 
-print("处理完成")
 # https://www.educative.io/answers/what-is-the-oslchflags-method-in-python
-# 报了个错，查查原因
-os.open(f"{base_path}/output/", os.O_RDONLY, 644)
+try:
+    webbrowser.open(f"file://{base_path}/output/")
+    print("处理完成")
+except OSError as e:
+    print("图片处理完成，但打开文件夹遇到错误: ", e)
