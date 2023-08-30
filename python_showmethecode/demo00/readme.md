@@ -4,7 +4,9 @@
 
 将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。类似于图中效果
 
-![头像](../images/000_demo.png)
+<img src='../images/000_demo.png' alt='头像' style='width: 10%; height: auto; text-align: center; margin-left: 45%;' />
+
+**<p align='center'>头像</p>**
 
 # 运行
 
@@ -16,12 +18,13 @@
 python main.py
 ```
 
-before:  
-![处理前](demo.jpg)  
-handling:
-![处理中](result.gif)  
-after:  
-![处理后](result.jpg)
+<img src='./input/demo.png' alt='处理前' style='width: 30%; height: auto; text-align: center; margin-left: 35%;' />
+
+**<p align='center'>处理前</p>**
+
+<img src='./output/demo.png' alt='处理后' style='width: 30%; height: auto; text-align: center; margin-left: 35%;' />
+
+**<p align='center'>处理后</p>**
 
 # 参考
 
