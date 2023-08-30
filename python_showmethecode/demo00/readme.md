@@ -34,8 +34,8 @@ python main.py
 
 # 参考
 
-0. [分分钟学会一门语言之 Python 篇](http://www.code123.cc/1049.html)
+1. [分分钟学会一门语言之 Python 篇](http://www.code123.cc/1049.html)
 1. [目录和文件操作](http://www.cnblogs.com/zhoujie/archive/2013/04/10/python7.html)
-2. [用 python 简单处理图片（1）：打开\显示\保存图像](http://www.cnblogs.com/denny402/p/5096001.html)
-3. [python 图片上添加文字](http://www.cnblogs.com/tk091/p/4331327.html)
-4. [PIL](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/00140767171357714f87a053a824ffd811d98a83b58ec13000)
+1. [用 python 简单处理图片（1）：打开\显示\保存图像](http://www.cnblogs.com/denny402/p/5096001.html)
+1. [python 图片上添加文字](http://www.cnblogs.com/tk091/p/4331327.html)
+1. [PIL](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/00140767171357714f87a053a824ffd811d98a83b58ec13000)
