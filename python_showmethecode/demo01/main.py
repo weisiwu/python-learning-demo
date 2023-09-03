@@ -42,8 +42,8 @@ class VerifyCode:
         self.uuid = uuid
         self.code_set_len = len(self.config["verify_code_set"])
 
-    def get_assets_path(self):
-        return os.path.dirname(__file__)
+    def get_assets_path(self, filename=""):
+        return os.path.join(os.path.dirname(__file__), filename)
 
     def get_current_path(self):
         return (
@@ -67,11 +67,11 @@ class VerifyCode:
 
     def get_memo_verify_code(self):
         try:
-            cache_file_path = f"{self.get_current_path()}/{cache_file}"
+            cache_file_path = self.get_assets_path(cache_file)
             if not os.path.isfile(cache_file_path):
                 return ""
 
-            with open(f"{self.get_current_path()}/{cache_file}", "r") as file:
+            with open(f"{cache_file_path}", "r") as file:
                 memo = json.load(file)
                 start_time = memo[self.uuid]["time"]  # 生成时间
 
@@ -117,7 +117,8 @@ class VerifyCode:
             # 随机大小和颜色
             font_size = self.get_random_size()
             font = ImageFont.truetype(
-                f"{self.get_assets_path()}/ttf/From Cartoon Blocks.ttf", size=font_size
+                self.get_assets_path("./ttf/From Cartoon Blocks.ttf"),
+                size=font_size,
             )
             fill_color = self.get_random_color()
             # 表示如果是第一个字，左侧间距是17，后续的依次加一个字宽
@@ -151,7 +152,7 @@ class VerifyCode:
                     image.putpixel((x, y), noise_color)
 
         # 默认保存路径
-        save_path = f"{self.get_assets_path()}/output"
+        save_path = self.get_assets_path("./output")
 
         # 如调用时，传入保存路径，则不使用默认路径
         if self.config["verify_code_save_path"]:
@@ -162,25 +163,44 @@ class VerifyCode:
             os.makedirs(save_path)
 
         self.path = f"{save_path}/{self.code}.png"
+        cache_file_path = self.get_assets_path(cache_file)
 
-        # 不能以A模式打开文件，并希望能将所有内容都读取出来
-        with open(f"{self.get_assets_path()}/{cache_file}", "a") as file:
+        try:
+            # 尝试打开文件并读取内容
+            with open(cache_file_path, "r") as file:
+                file_content = file.read()
+        except FileNotFoundError:
+            file_content = ""
+
+        if not file_content:
+            file_content = "{}"
+
+        try:
+            json_data = json.loads(file_content)
+
+        except json.JSONDecodeError as e:
+            json_data = {}
+            print(f"\033[91m缓存JSON解析错误：\033[0m")
+            print(f"\033[91m{e}\033[0m")
+
+        json_data[self.uuid] = {
+            "code": self.code,
+            "time": datetime.now().timestamp(),
+            "path": self.path,
+        }
+
+        with open(cache_file_path, "w") as file:
             json.dump(
-                {
-                    self.uuid: {
-                        "code": self.code,
-                        "time": datetime.now().timestamp(),
-                        "path": self.path,
-                    }
-                },
+                json_data,
                 file,
+                indent=4,
             )
 
         try:
             image.save(self.path)
         except Exception as e:
             # 防止传入的目录不可用
-            image.save(f"{self.get_assets_path()}/output/{self.code}.png")
+            image.save(f"{self.get_assets_path(f'./output/{self.code}.png')}")
             print(f"\033[91m传入的路径不可用，错误信息如下：\033[0m")
             print(f"\033[91m{e}\033[0m")
 

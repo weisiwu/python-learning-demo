@@ -179,9 +179,8 @@ self.path = f"{save_path}/{self.code}.png"
 ## 运行
 
 <div style="display:inline-block">
-   <img src="./output/3Pcs3a.png" alt="验证码1" style="width: 30%; height: auto;" />
-   <img src="./test_2/mSs6uQ.png" alt="验证码2" style="width: 30%; height: auto;" />
-   <img src="./output/eKLzMu.png" alt="验证码3" style="width: 30%; height: auto;" />
+   <img src="./output/1mzguc.png" alt="验证码1" style="width: 45%; height: auto;" />
+   <img src="./test_2/aGr2LM.png" alt="验证码2" style="width: 45%; height: auto;" />
 </div>
 
 <p align='center'>生成的验证码</p>
