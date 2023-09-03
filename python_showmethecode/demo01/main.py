@@ -27,21 +27,30 @@ class VerifyCode:
         # 验证码字符集
         "verify_code_set": "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         # 7200秒
-        "verify_code_expire_time": 3,
+        "verify_code_expire_time": 7200,
         "verify_code_fontsize": 50,
         "verify_code_height": 80,
         "verify_code_width": 250,
         "verify_code_save_path": None,
+        "noise_level": 0.05,  # 噪点级别
     }
     meme_code = {}
 
     def __init__(self, uuid, config=default_config):
-        self.config = config if config is not None else self.default_config
+        input_config = config if config is not None else self.default_config
+        self.config = {**self.default_config, **input_config}
         self.uuid = uuid
         self.code_set_len = len(self.config["verify_code_set"])
 
-    def get_current_path(self):
+    def get_assets_path(self):
         return os.path.dirname(__file__)
+
+    def get_current_path(self):
+        return (
+            self.get_assets_path()
+            if not self.config["verify_code_save_path"]
+            else self.config["verify_code_save_path"]
+        )
 
     def get_random_color(self):
         color = []
@@ -93,7 +102,7 @@ class VerifyCode:
         alpha_cover = Image.new("L", (width, height), 128)  # 128 表示半透明
         alpha_cover_draw = ImageDraw.Draw(alpha_cover)
 
-        # 给图片背景添加随机线条
+        # 给验证码图添加背景和随机线条
         for i in range(50):
             line_color = random.randint(0, 255)  # 干扰线的颜色随机生成
             start_point = (random.randint(0, width), random.randint(0, height))
@@ -103,11 +112,12 @@ class VerifyCode:
 
         image.paste(alpha_cover, (0, 0), alpha_cover)
 
+        # 向图片加验证码文字
         for index, text in enumerate(self.code):
             # 随机大小和颜色
             font_size = self.get_random_size()
             font = ImageFont.truetype(
-                f"{self.get_current_path()}/ttf/From Cartoon Blocks.ttf", size=font_size
+                f"{self.get_assets_path()}/ttf/From Cartoon Blocks.ttf", size=font_size
             )
             fill_color = self.get_random_color()
             # 表示如果是第一个字，左侧间距是17，后续的依次加一个字宽
@@ -132,37 +142,38 @@ class VerifyCode:
                 ImageOps.colorize(twisted_text_image, (0, 0, 0), (255, 0, 0)), (50, 100)
             )
 
-        save_path = f"{self.get_current_path()}/output"
+        # 默认保存路径
+        save_path = f"{self.get_assets_path()}/output"
 
-        # 如果调用的时候，传入了保存路径，则不使用默认路径
+        # 如调用时，传入保存路径，则不使用默认路径
         if self.config["verify_code_save_path"]:
-            save_path = self.config["verify_code_save_path"]
-        elif not os.path.isdir(save_path):
+            save_path = f'{self.config["verify_code_save_path"]}'
+
+        if not os.path.isdir(save_path):
             # makedirs 可以递归创建目录
             os.makedirs(save_path)
 
-        verify_code_save_path = f"{save_path}/{self.code}.png"
-        self.path = verify_code_save_path
+        self.path = f"{save_path}/{self.code}.png"
 
         # 不能以A模式打开文件，并希望能将所有内容都读取出来
-        with open(f"{self.get_current_path()}/{cache_file}", "a") as file:
+        with open(f"{self.get_assets_path()}/{cache_file}", "a") as file:
             json.dump(
                 {
                     self.uuid: {
                         "code": self.code,
                         "time": datetime.now().timestamp(),
-                        "path": verify_code_save_path,
+                        "path": self.path,
                     }
                 },
                 file,
             )
 
         try:
-            image.save(verify_code_save_path)
+            image.save(self.path)
         except Exception as e:
             # 防止传入的目录不可用
-            image.save(f"{self.get_current_path()}/output/{self.code}.png")
-            print(f"\033[91m传入的路径（verify_code_save_path）不可用，错误信息如下：\033[0m")
+            image.save(f"{self.get_assets_path()}/output/{self.code}.png")
+            print(f"\033[91m传入的路径不可用，错误信息如下：\033[0m")
             print(f"\033[91m{e}\033[0m")
 
     def verify_code_generate(self):
@@ -179,7 +190,7 @@ class VerifyCode:
     def verify_code(self):
         verify_code_memo = self.get_memo_verify_code()
 
-        if verify_code_memo:
+        if bool(verify_code_memo):
             image = Image.open(verify_code_memo["path"])
         else:
             self.verify_code_generate()
@@ -204,3 +215,11 @@ if __name__ == "__main__":
     code = VerifyCode(uuid).verify_code()
     print(f"为{uuid}生成的验证码为: {code}\n")
     print(f"TEST CASE 1 END =======================\n")
+
+    print(f"TEST CASE 2 START =======================\n")
+    uuid = "test_2"
+    code = VerifyCode(
+        uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
+    ).verify_code()
+    print(f"为{uuid}生成的验证码为: {code}\n")
+    print(f"TEST CASE 2 END =======================\n")
