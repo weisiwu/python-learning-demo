@@ -22,11 +22,7 @@ as a apple developer,you are mandated to generate 200 activation code,how would 
 <!-- 背景图中生成随机线条 -->
 
 ```python
-for i in range(5):
-    line_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) # 干扰线的颜色随机生成
-    start_point = (random.randint(0, width), random.randint(0, height))
-    end_point = (random.randint(0, width), random.randint(0, height))
-    draw.line([start_point, end_point], fill=line_color, width=2) # 在画布上绘制干扰线
+
 ```
 
 ---

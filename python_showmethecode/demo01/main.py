@@ -1,8 +1,10 @@
 import os
+import json
 import random
 from datetime import datetime
-import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageOps
+
+cache_file = ".verify_code_memo"
 
 """
 验证码: VerifyCode
@@ -17,13 +19,15 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 # 如何绘制图片
 class VerifyCode:
     code = ""
+    path = ""
+    time = 0
     default_config = {
         # 验证码长度
         "verify_code_len": 6,
         # 验证码字符集
         "verify_code_set": "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         # 7200秒
-        "verify_code_expire_time": 7200,
+        "verify_code_expire_time": 3,
         "verify_code_fontsize": 50,
         "verify_code_height": 80,
         "verify_code_width": 250,
@@ -54,15 +58,30 @@ class VerifyCode:
 
     def get_memo_verify_code(self):
         try:
-            code_memo = self.meme_code[self.uuid]["code"]
-            start_time = self.meme_code[self.uuid]["time"]  # 生成时间
+            cache_file_path = f"{self.get_current_path()}/{cache_file}"
+            if not os.path.isfile(cache_file_path):
+                return ""
 
-            if start_time + self.config["verify_code_expire_time"] >= datetime.now():
-                return code_memo
+            with open(f"{self.get_current_path()}/{cache_file}", "r") as file:
+                memo = json.load(file)
+                start_time = memo[self.uuid]["time"]  # 生成时间
+
+            if (
+                start_time + self.config["verify_code_expire_time"]
+                >= datetime.now().timestamp()
+            ):
+                return memo[self.uuid]
             else:
                 return ""
-        except KeyError:
+        except KeyError as e:
+            print(f"\033[91m未能读取正确缓存：\033[0m")
+            print(f"\033[91m{e}\033[0m")
+        except json.JSONDecodeError:
             return ""
+
+    def clear_memo(self):
+        # 清空缓存
+        return
 
     def verify_code_draw(self):
         width = self.config["verify_code_width"]
@@ -70,8 +89,19 @@ class VerifyCode:
         size = self.config["verify_code_fontsize"]
 
         image = Image.new("RGB", (width, height), "white")
-
         image_draw = ImageDraw.Draw(image)
+        alpha_cover = Image.new("L", (width, height), 128)  # 128 表示半透明
+        alpha_cover_draw = ImageDraw.Draw(alpha_cover)
+
+        # 给图片背景添加随机线条
+        for i in range(50):
+            line_color = random.randint(0, 255)  # 干扰线的颜色随机生成
+            start_point = (random.randint(0, width), random.randint(0, height))
+            end_point = (random.randint(0, width), random.randint(0, height))
+            # 在画布上绘制干扰线
+            alpha_cover_draw.line([start_point, end_point], fill=line_color, width=1)
+
+        image.paste(alpha_cover, (0, 0), alpha_cover)
 
         for index, text in enumerate(self.code):
             # 随机大小和颜色
@@ -111,15 +141,29 @@ class VerifyCode:
             # makedirs 可以递归创建目录
             os.makedirs(save_path)
 
+        verify_code_save_path = f"{save_path}/{self.code}.png"
+        self.path = verify_code_save_path
+
+        # 不能以A模式打开文件，并希望能将所有内容都读取出来
+        with open(f"{self.get_current_path()}/{cache_file}", "a") as file:
+            json.dump(
+                {
+                    self.uuid: {
+                        "code": self.code,
+                        "time": datetime.now().timestamp(),
+                        "path": verify_code_save_path,
+                    }
+                },
+                file,
+            )
+
         try:
-            image.save(f"{save_path}/{self.code}.png")
+            image.save(verify_code_save_path)
         except Exception as e:
             # 防止传入的目录不可用
-            image.save(f"{self.get_current_path()}/output.png")
+            image.save(f"{self.get_current_path()}/output/{self.code}.png")
             print(f"\033[91m传入的路径（verify_code_save_path）不可用，错误信息如下：\033[0m")
             print(f"\033[91m{e}\033[0m")
-
-        image.show()
 
     def verify_code_generate(self):
         code_arr = [
@@ -131,19 +175,17 @@ class VerifyCode:
         # 绘制验证码图片&&提高图片的复杂度
         self.verify_code_draw()
 
-        self.meme_code[self.uuid] = {
-            "time": datetime.now().timestamp(),
-            "code": self.code,
-        }
-
     # 针对特定id深处验证码，如果没有传入，则从本地缓存读取未过期的验证码返回
     def verify_code(self):
-        if self.uuid:
-            verify_code_memo = self.get_memo_verify_code()
-            if not verify_code_memo:
-                self.verify_code_generate()
+        verify_code_memo = self.get_memo_verify_code()
+
+        if verify_code_memo:
+            image = Image.open(verify_code_memo["path"])
         else:
             self.verify_code_generate()
+            image = Image.open(self.path)
+
+        image.show()
 
         return self.code
 
