@@ -23,7 +23,7 @@ todo 待添加
 
 4. 多样性： 网站和应用程序可以使用不同类型和样式的验证码，以增加多样性，防止破解。
 
-这里验证码程序入口: [verify_code]()
+这里验证码程序入口: [verify_code](https://github.com/weisiwu/python-learning-demo/blob/ea8178d73e1abaa49ae81cb61b243243059d6375/python_showmethecode/demo01/main.py#L198)
 
 主要思路如下:
 
@@ -86,12 +86,13 @@ image.paste(
 
 ```python
 noise_level = 0.05  # 噪点级别
-pixels = image.load()  # 获取像素数据
+
 for i in range(image.width):
     for j in range(image.height):
         if random.random() < noise_level:
             noise_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            pixels[i, j] = noise_color
+            # 对图片对象，对每个随机到的像素点修改颜色
+            image.putpixel((x, y), noise_color)
 
 ```
 
@@ -178,8 +179,9 @@ self.path = f"{save_path}/{self.code}.png"
 ## 运行
 
 <div style="display:inline-block">
-    <img src="./output/Ve2C5Z.png" alt="验证码1" style="width: 45%; height: auto;" />
-    <img src="./output/Sc0sjw.png" alt="验证码2" style="width: 45%; height: auto;" />
+   <img src="./output/3Pcs3a.png" alt="验证码1" style="width: 30%; height: auto;" />
+   <img src="./test_2/mSs6uQ.png" alt="验证码2" style="width: 30%; height: auto;" />
+   <img src="./output/eKLzMu.png" alt="验证码3" style="width: 30%; height: auto;" />
 </div>
 
 <p align='center'>生成的验证码</p>

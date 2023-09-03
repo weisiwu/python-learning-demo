@@ -142,6 +142,14 @@ class VerifyCode:
                 ImageOps.colorize(twisted_text_image, (0, 0, 0), (255, 0, 0)), (50, 100)
             )
 
+        # 在图片中添加噪点
+        noise_level = self.config["noise_level"]
+        for x in range(image.width):
+            for y in range(image.height):
+                if random.random() < noise_level:
+                    noise_color = self.get_random_color()
+                    image.putpixel((x, y), noise_color)
+
         # 默认保存路径
         save_path = f"{self.get_assets_path()}/output"
 
