@@ -4,6 +4,9 @@ import random
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
+# python中常用的加密解密库,常用的库还有 Crypto
+from cryptography import Fernet
+
 cache_file = ".verify_code_memo"
 
 """
@@ -258,15 +261,40 @@ class ActivateCode:
     }
 
     def __init__(self, config=default_config):
+        self.base_path = os.path.abspath(__file__)
+        self.private_key_path = os.path.join(self.base_path, ".private_key")
         # 产品信息
         self["invalid_date"] = config["invalid_date"]
         self["sign"] = config["sign"]
         self["times"] = config["times"]
         self["apply_ids"] = config["apply_ids"]
-        self.code = None  # 激活码
+        self["code"] = None  # 激活码
+        self["private_key"] = None
+        self["cipher_suite"] = None
 
+    # 加密使用AES-256算法，需要先生成私钥，私钥将会存储在本地。以便后续使用
     def encrypt(self):
+        privae_key = None
+        # 尝试从本地读取秘钥，如无则生成
+        with open(self.private_key_path, "w") as file:
+            privae_key = file.read()
+
+            # 生成私钥
+            if not privae_key:
+                privae_key = Fernet.generate_key()
+                file.write(privae_key)
+
+            self.private_key = privae_key
+            self.cipher_suite = Fernet(privae_key)
+
+        # 进行加密
         return self.code
+
+    # 批量生成激活码
+    def encrypt_batch(
+        self, batch_config={"number": 100, "save_path": os.path.dirname(__file__)}
+    ):
+        return f"已完成200条激活码生成，请妥善保存"
 
     def decrypt(self):
         return
