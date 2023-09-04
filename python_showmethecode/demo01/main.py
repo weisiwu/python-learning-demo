@@ -15,8 +15,6 @@ cache_file = ".verify_code_memo"
 """
 
 
-# 如何写到文件中
-# 如何绘制图片
 class VerifyCode:
     code = ""
     path = ""
@@ -235,9 +233,52 @@ class VerifyCode:
 """
 激活码&&验证码
 激活码: ActivateCode
+程序设计
+激活码是包含激活信息的加密字符串
+激活信息包含了
+    1、有效期
+    2、身份数字签名
+    3、激活次数（默认为1）
+    4、适用项目
+激活码程序通过接受以上信息，生成激活码。
+并且提供解析方法，将激活信息读取出来。
+同时提供可靠性校验，防止伪造激活码。
+
+至于业务逻辑，如激活码和用户关联，是否超出激活次数。
+则由业务逻辑处理，不在这里涉及
 """
 
+
+class ActivateCode:
+    default_config = {
+        "invalid_date": None,
+        "sign": None,
+        "times": 1,
+        "apply_ids": (),
+    }
+
+    def __init__(self, config=default_config):
+        # 产品信息
+        self["invalid_date"] = config["invalid_date"]
+        self["sign"] = config["sign"]
+        self["times"] = config["times"]
+        self["apply_ids"] = config["apply_ids"]
+        self.code = None  # 激活码
+
+    def encrypt(self):
+        return self.code
+
+    def decrypt(self):
+        return
+
+    def check_valid(self, code):
+        if not code:
+            return False
+        return False
+
+
 if __name__ == "__main__":
+    # 验证码部分
     print(f"TEST CASE 1 START =======================\n")
     uuid = "test_1"
     code = VerifyCode(uuid).verify_code()
@@ -251,3 +292,8 @@ if __name__ == "__main__":
     ).verify_code()
     print(f"为{uuid}生成的验证码为: {code}\n")
     print(f"TEST CASE 2 END =======================\n")
+
+    # 激活码部分
+    print(f"TEST CASE 3 START =======================\n")
+
+    print(f"TEST CASE 3 END =======================\n")
