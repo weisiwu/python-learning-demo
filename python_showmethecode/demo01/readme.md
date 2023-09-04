@@ -23,7 +23,7 @@ todo 待添加
 
 4. 多样性： 网站和应用程序可以使用不同类型和样式的验证码，以增加多样性，防止破解。
 
-这里验证码程序入口: [verify_code](https://github.com/weisiwu/python-learning-demo/blob/ea8178d73e1abaa49ae81cb61b243243059d6375/python_showmethecode/demo01/main.py#L198)
+这里验证码程序入口: [verify_code](https://github.com/weisiwu/python-learning-demo/blob/ea8178d73e1abaa49ae81cb61b243243059d6375/python_showmethecode/demo01/main.py#L190)
 
 主要思路如下:
 
