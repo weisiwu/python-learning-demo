@@ -1,5 +1,6 @@
 import os
 import json
+import string
 import random
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont, ImageOps
@@ -238,11 +239,15 @@ class VerifyCode:
 激活码: ActivateCode
 程序设计
 激活码是包含激活信息的加密字符串
-激活信息包含了
+设计程序程序时，当关注以下几点
+1、激活码是否足够随机，是否可能被恶意用户猜测到？
+2、每个激活码只能使用1次，如何防止重放攻击？
+3、激活码是否是唯一的，不能重复。
+为此，我们对激活码对应的原始字段，设计包含以下信息
     1、有效期
-    2、身份数字签名
-    3、激活次数（默认为1）
-    4、适用项目
+    2、生成激活码时的时间戳
+    3、2块各自独立的强随机字段，分别在头尾
+    4、激活码id（由时间戳+随机字段1组合后，数字签名而来）
 激活码程序通过接受以上信息，生成激活码。
 并且提供解析方法，将激活信息读取出来。
 同时提供可靠性校验，防止伪造激活码。
@@ -254,23 +259,32 @@ class VerifyCode:
 
 class ActivateCode:
     default_config = {
-        "invalid_date": None,
-        "sign": None,
-        "times": 1,
-        "apply_ids": (),
+        "valid_date": None,
+        "timestamp": None,
     }
 
     def __init__(self, config=default_config):
         self.base_path = os.path.abspath(__file__)
         self.private_key_path = os.path.join(self.base_path, ".private_key")
         # 产品信息
-        self["invalid_date"] = config["invalid_date"]
-        self["sign"] = config["sign"]
-        self["times"] = config["times"]
-        self["apply_ids"] = config["apply_ids"]
+        self["valid_date"] = config["valid_date"]
+        self["timestamp"] = datetime.now()
         self["code"] = None  # 激活码
         self["private_key"] = None
         self["cipher_suite"] = None
+        self["random_text_1"] = self._generate_random_str(10)
+        self["random_text_2"] = self._generate_random_str(10)
+        self["id"] = self._generate_id()
+
+    # 为激活码实例生成属于自己的id
+    def _generate_id(self):
+        f"{self['random_text_1']}_{self['timestamp']}"
+        return ""
+
+    # 生成随机字符串
+    def _generate_random_str(len=10):
+        characters = string.ascii_letters + string.digits
+        return "".join(random.choice(characters) for _ in range(len))
 
     # 加密使用AES-256算法，需要先生成私钥，私钥将会存储在本地。以便后续使用
     def encrypt(self):
@@ -287,14 +301,21 @@ class ActivateCode:
             self.private_key = privae_key
             self.cipher_suite = Fernet(privae_key)
 
+            raw_text = json.dumps(
+                {
+                    "valid_date": self["valid_date"],
+                    "timestamp": self["timestamp"],
+                    "random_text_1": self["random_text_1"],
+                    "random_text_2": self["random_text_2"],
+                    "id": self["id"],
+                }
+            )
+            print("raw_text", raw_text)
+            self.code = self.cipher_suite.encrypt(raw_text)
+            print("激活码", self.code)
+
         # 进行加密
         return self.code
-
-    # 批量生成激活码
-    def encrypt_batch(
-        self, batch_config={"number": 100, "save_path": os.path.dirname(__file__)}
-    ):
-        return f"已完成200条激活码生成，请妥善保存"
 
     def decrypt(self):
         return
@@ -305,23 +326,43 @@ class ActivateCode:
         return False
 
 
+# 模拟核销激活码
+def mock_check_activateCode(code, game_id):
+    return
+
+
 if __name__ == "__main__":
     # 验证码部分
-    print(f"TEST CASE 1 START =======================\n")
-    uuid = "test_1"
-    code = VerifyCode(uuid).verify_code()
-    print(f"为{uuid}生成的验证码为: {code}\n")
-    print(f"TEST CASE 1 END =======================\n")
+    # print(f"TEST CASE 1 START =======================\n")
+    # uuid = "test_1"
+    # code = VerifyCode(uuid).verify_code()
+    # print(f"为{uuid}生成的验证码为: {code}\n")
+    # print(f"TEST CASE 1 END =======================\n")
 
-    print(f"TEST CASE 2 START =======================\n")
-    uuid = "test_2"
-    code = VerifyCode(
-        uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
-    ).verify_code()
-    print(f"为{uuid}生成的验证码为: {code}\n")
-    print(f"TEST CASE 2 END =======================\n")
+    # print(f"TEST CASE 2 START =======================\n")
+    # uuid = "test_2"
+    # code = VerifyCode(
+    #     uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
+    # ).verify_code()
+    # print(f"为{uuid}生成的验证码为: {code}\n")
+    # print(f"TEST CASE 2 END =======================\n")
 
+    print(f"激活码生成开始 =======================\n")
+    # 生成激活码，并保存实例
+    activate_ins = ActivateCode(
+        config={
+            "invalid_date": datetime.date(),
+            "sign": "游戏活动_TEST",
+            "times": 3,
+            "apply_ids": ("game_id_1", "game_id_2", "game_id_3"),
+        }
+    )
+    activate_code = activate_ins.encrypt()
+    print("activate_code", activate_code)
+    print(f"激活码生成结束 =======================\n")
     # 激活码部分
     print(f"TEST CASE 3 START =======================\n")
-
+    # 模拟核销可用激活码
     print(f"TEST CASE 3 END =======================\n")
+    # 模拟核销使用次数超限激活码
+    # 模拟核销过期激活码
