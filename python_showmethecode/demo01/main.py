@@ -270,6 +270,9 @@ class ActivateCode:
     def __init__(self, config=default_config):
         self.base_path = os.path.dirname(__file__)
         self.private_key_path = os.path.join(self.base_path, ".private_key")
+        self.code_list_path = os.path.join(self.base_path, "./activeCodeList.txt")
+        # 一共生成多少条
+        self.batch_number = config["batch_number"]
         # 产品信息
         self.valid_date = config["valid_date"]
         self.timestamp = time.time()
@@ -316,54 +319,85 @@ class ActivateCode:
                 "id": self.id,
             }
         )
-        print("raw_text", raw_text)
         # 进行加密
         b_code = self.cipher_suite.encrypt(raw_text.encode("utf-8"))
         self.code = hashlib.md5(string=b_code, usedforsecurity=True).hexdigest()
-
-        print("激活码", self.code)
+        print("生成的激活码是 ==============>", self.code)
 
         return self.code
 
-    def decrypt(self):
-        return
+    def encrypt_batch(self):
+        # 清空文件已有内容
+        with open(self.code_list_path, "w") as file:
+            file.write("")
+
+        with open(self.code_list_path, "a") as file:
+            for _ in range(0, self.batch_number):
+                code = self.encrypt()
+                file.write(f"{code}\n")
+
+            print(f"已完成{self.batch_number}条激活码的生成！")
+
+        with open(self.code_list_path, "r") as file:
+            file.read()
 
     # 检测激活码的手段: 如果激活码确实是从这里发出去的，那么就是可用的，否则都不是。
     # 换言之，保存在库里的，状态是正确的数据中存储的激活码，才是有效的
     def check_valid(self, code):
-        pass
+        print(f"正在解码: {code}\n")
+        # 检查激活码长度
+        _code = code.strip()
+        if len(_code) != 32:
+            return False
+
+        characters = f"{string.digits}{string.ascii_letters}"
+
+        # all + 列表推导，迅速过滤数组中是否有不符合条件的值
+        if not all(char in characters for char in _code):
+            return False
+
+        return True
 
 
 if __name__ == "__main__":
     # 验证码部分
-    print(f"TEST CASE 1 START =======================\n")
-    uuid = "test_1"
-    code = VerifyCode(uuid).verify_code()
-    print(f"为{uuid}生成的验证码为: {code}\n")
-    print(f"TEST CASE 1 END =======================\n")
+    # print(f"TEST CASE 1 START =======================\n")
+    # uuid = "test_1"
+    # code = VerifyCode(uuid).verify_code()
+    # print(f"为{uuid}生成的验证码为: {code}\n")
+    # print(f"TEST CASE 1 END =======================\n")
 
-    print(f"TEST CASE 2 START =======================\n")
-    uuid = "test_2"
-    code = VerifyCode(
-        uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
-    ).verify_code()
-    print(f"为{uuid}生成的验证码为: {code}\n")
-    print(f"TEST CASE 2 END =======================\n")
+    # print(f"TEST CASE 2 START =======================\n")
+    # uuid = "test_2"
+    # code = VerifyCode(
+    #     uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
+    # ).verify_code()
+    # print(f"为{uuid}生成的验证码为: {code}\n")
+    # print(f"TEST CASE 2 END =======================\n")
 
-    print(f"激活码生成开始 =======================\n")
+    batch_number = 200
+    print(f"{batch_number}条激活码生成开始 =======================\n")
     # 生成激活码，并保存实例
     activate_ins = ActivateCode(
         config={
-            # 7200s
-            "valid_date": time.time()
-            + 7e6
-            + 2e5,
+            "batch_number": batch_number,
+            # 7200秒
+            "valid_date": time.time() + 7e6 + 2e5,
         }
     )
-    activate_code = activate_ins.encrypt()
-    print("activate_code", activate_code)
-    print(f"激活码生成结束 =======================\n")
-    # 生成激活码
-    print(f"TEST CASE 3 START =======================\n")
-    # 解析激活码
-    print(f"TEST CASE 3 END =======================\n")
+    activate_code = activate_ins.encrypt_batch()
+    print(f"{batch_number}条激活码生成结束 =======================\n")
+
+    print(f"激活码解码: 随机取一条进行解码 =======================\n")
+    random_index = random.randint(0, batch_number)
+    with open(
+        os.path.join(os.path.dirname(__file__), "./activeCodeList.txt"), "r"
+    ) as file:
+        for _ in range(0, batch_number):
+            code = file.readline(batch_number)
+            if _ == random_index:
+                # 随机取一条，开始解码
+                if activate_ins.check_valid(code):
+                    print("\033[92m通过规则校验！\033[0m")
+                else:
+                    print("\033[91m未通过规则校验！\033[0m")
