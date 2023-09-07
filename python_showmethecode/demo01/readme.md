@@ -115,6 +115,15 @@ if not os.path.isdir(save_path):
 self.path = f"{save_path}/{self.code}.png"
 ```
 
+#### 6、运行结果
+
+<div style="display:inline-block">
+   <img src="./output/1mzguc.png" alt="验证码1" style="width: 45%; height: auto;" />
+   <img src="./test_2/aGr2LM.png" alt="验证码2" style="width: 45%; height: auto;" />
+</div>
+
+<p align='center'>生成的验证码</p>
+
 ### 2. **激活码**
 
 #### 1、原理
@@ -176,14 +185,13 @@ self.path = f"{save_path}/{self.code}.png"
 
 通过对激活码进行验证和比对，软件或产品可以根据这些授权规则来判断激活码的合法性。如果激活码满足所有授权规则的条件，那么可以认为该激活码是合法的，并给予相应的授权许可。否则，激活码将被判定为无效或过期，无法进行授权使用。这样的授权规则可以帮助开发者或厂商有效地管理和控制软件或产品的授权使用范围。
 
-## 运行
+#### 6、运行结果
 
 <div style="display:inline-block">
-   <img src="./output/1mzguc.png" alt="验证码1" style="width: 45%; height: auto;" />
-   <img src="./test_2/aGr2LM.png" alt="验证码2" style="width: 45%; height: auto;" />
+   <img src="./imgs/activate_code_1.png" alt="激活码" style="width: 60%; height: auto;" />
 </div>
 
-<p align='center'>生成的验证码</p>
+<p align='center'>生成的激活码</p>
 
 ## 参考
 
