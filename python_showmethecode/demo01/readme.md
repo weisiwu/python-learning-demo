@@ -9,7 +9,13 @@ as a apple developer,you are mandated to generate 200 activation code,how would 
 
 ### 1. **验证码**
 
-todo 待添加
+生成图片验证码，获取验证码后，和用户填的值进行对比，确定用户是否通过验证。嗲用如下:
+
+```python
+code = VerifyCode(uuid).verify_code()
+```
+
+验证码对应的图片的位置在 `./output/code.png`， `code` 是刚生成的验证码值
 
 #### 1、验证码的作用和生成思路
 
@@ -189,6 +195,14 @@ self.path = f"{save_path}/{self.code}.png"
 
 <div style="display:inline-block">
    <img src="./imgs/activate_code_1.png" alt="激活码" style="width: 60%; height: auto;" />
+</div>
+
+<p align='center'>运行生成激活码</p>
+
+生成的验证码存放在`activeCodeList.txt`文件中
+
+<div style="display:inline-block">
+   <img src="./imgs/activate_code_2.png" alt="激活码" style="width: 60%; height: auto;" />
 </div>
 
 <p align='center'>生成的激活码</p>

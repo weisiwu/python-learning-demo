@@ -361,19 +361,19 @@ class ActivateCode:
 
 if __name__ == "__main__":
     # 验证码部分
-    # print(f"TEST CASE 1 START =======================\n")
-    # uuid = "test_1"
-    # code = VerifyCode(uuid).verify_code()
-    # print(f"为{uuid}生成的验证码为: {code}\n")
-    # print(f"TEST CASE 1 END =======================\n")
+    print(f"TEST CASE 1 START =======================\n")
+    uuid = "test_1"
+    code = VerifyCode(uuid).verify_code()
+    print(f"为{uuid}生成的验证码为: {code}\n")
+    print(f"TEST CASE 1 END =======================\n")
 
-    # print(f"TEST CASE 2 START =======================\n")
-    # uuid = "test_2"
-    # code = VerifyCode(
-    #     uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
-    # ).verify_code()
-    # print(f"为{uuid}生成的验证码为: {code}\n")
-    # print(f"TEST CASE 2 END =======================\n")
+    print(f"TEST CASE 2 START =======================\n")
+    uuid = "test_2"
+    code = VerifyCode(
+        uuid, config={"verify_code_save_path": f"{os.path.dirname(__file__)}/{uuid}/"}
+    ).verify_code()
+    print(f"为{uuid}生成的验证码为: {code}\n")
+    print(f"TEST CASE 2 END =======================\n")
 
     batch_number = 200
     print(f"{batch_number}条激活码生成开始 =======================\n")
