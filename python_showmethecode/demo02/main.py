@@ -1,26 +1,42 @@
-##-*-coding: utf-8-*-
+import os
+import time
+import random
+import MySQLdb
+from ..demo01.main import ActivateCode
 
-# 引入生成激活码的算法
-from activeCode import generate_code
-import pymysql
+print(f"ActivateCode {ActivateCode}")
 
-activeArr = generate_code()
 
-# 打开连接
-db = pymysql.connect()
+def connect_db():
+    pass
 
-# 获取游标
-cursor = db.cursor()
 
-for activeCodeItem in activeArr: 
-  sql = "Insert into activecode(code) \
-    values (%s)" % (activeCodeItem)
-  try:
-    # 执行插入
-    cursor.execute(sql)
-    db.commit()
-  except:
-    db.rollback()
+def create_table():
+    pass
 
-# 全部结束关闭数据库
-db.close()
+
+def append_data():
+    pass
+
+
+if __name__ == "__main__":
+    batch_number = 200
+    # 生成激活码，并保存实例
+    activate_ins = ActivateCode(
+        config={
+            "batch_number": batch_number,
+            # 7200秒
+            "valid_date": time.time() + 7e6 + 2e5,
+        }
+    )
+    activate_code = activate_ins.encrypt_batch()
+    random_index = random.randint(0, batch_number)
+
+    with open(
+        os.path.join("../demo01", os.path.dirname(__file__), "./activeCodeList.txt"),
+        "r",
+    ) as file:
+        for _ in range(0, batch_number):
+            print(f"code是什么 {code}")
+            code = file.readline(batch_number)
+            append_data(code)
