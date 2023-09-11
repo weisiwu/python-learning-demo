@@ -23,12 +23,20 @@ Python 练习册，每天一个小程序。
 ## 运行环境
 
 ```shell
+# 运行镜像，生成容器
 docker run --name learningPython alpine
+
+# 以shell形式进入运行中的容器
+docker exec -it a1bd26164e23 /bin/sh
+
+# 或者直接链接到容器中
+docker attach a1bd26164e23
+
+docker commit silly_engelbart python-learning-demo:0.0.1
 ```
 
-1. [python 3.12-rc-slim](https://hub.docker.com/layers/library/python/3.12-rc-slim/images/sha256-9393b50e405b1717c79ea433339cb19b2b10d81d3b8dad18576b5b1818ab2853?context=explore)
-
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
+[python-learning-demo](https://hub.docker.com/repository/docker/wei123098/python-learning-demo)
 
 [pythond-examples]: https://github.com/Yixiaohan/show-me-the-code
 [q0]: ./python_showmethecode/demo00/readme.md
