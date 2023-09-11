@@ -22,6 +22,10 @@ Python 练习册，每天一个小程序。
 
 ## 运行环境
 
+```shell
+docker run --name learningPython alpine
+```
+
 1. [python 3.12-rc-slim](https://hub.docker.com/layers/library/python/3.12-rc-slim/images/sha256-9393b50e405b1717c79ea433339cb19b2b10d81d3b8dad18576b5b1818ab2853?context=explore)
 
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
