@@ -14,23 +14,29 @@
 
 ### **2、[Python 练习册，每天一个小程序][pythond-examples]个人实现**
 
-1. **[第 0000 题][q0]**
+Python 练习册，每天一个小程序。
 
-   将你的 QQ 头像（或者微博头像）右上角加上红色的数字，类似于微信未读信息数量那种提示效果。
+不会出现诸如「打印九九乘法表」、「打印水仙花」之类的题目
 
-2. **[第 0001 题][q1]**
-
-   做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？
-
-3. **[第 0002 题][q2]**
-
-   将 0001 题生成的 200 个激活码（或者优惠券）保存到 Redis 非关系型数据库中。
+> Talk is cheap. Show me the code.--Linus Torvalds
 
 ## 运行环境
 
-1. [python 3.12-rc-slim](https://hub.docker.com/layers/library/python/3.12-rc-slim/images/sha256-9393b50e405b1717c79ea433339cb19b2b10d81d3b8dad18576b5b1818ab2853?context=explore)
+```shell
+# 运行镜像，生成容器
+docker run --name learningPython alpine
+
+# 以shell形式进入运行中的容器
+docker exec -it a1bd26164e23 /bin/sh
+
+# 或者直接链接到容器中
+docker attach a1bd26164e23
+
+docker commit silly_engelbart python-learning-demo:0.0.1
+```
 
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
+[python-learning-demo](https://hub.docker.com/repository/docker/wei123098/python-learning-demo)
 
 [pythond-examples]: https://github.com/Yixiaohan/show-me-the-code
 [q0]: ./python_showmethecode/demo00/readme.md

@@ -1,0 +1,3 @@
+1. alpine 最简单镜像不包含 build-base(一些编译工具套件集合)
+2. gcc: 开源编译器套件 https://gcc.gnu.org/
+3. 目前 镜像 安装 pygame 遇到问题（虽然可以不安装）
