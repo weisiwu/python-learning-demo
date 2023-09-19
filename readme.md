@@ -23,6 +23,12 @@ Python 练习册，每天一个小程序。
 ## 运行环境
 
 ```shell
+# 拉取镜像
+docker pull wei123098/python-learning-demo
+
+# 查看本地所有镜像
+docker images ls
+
 # 运行镜像，生成容器
 docker run --name learningPython alpine
 
