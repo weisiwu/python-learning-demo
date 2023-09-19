@@ -7,6 +7,7 @@ class CodeTable:
         self.db = _mysql.connect(
             host="localhost",
             user="root",
+            passwd="1@3$5^7*",
         )
         self.cursor = self.db.cursor()
 
@@ -20,7 +21,8 @@ class CodeTable:
 
         # 选择数据库
         self.cursor.execute("use demo02;")
-        self.db.commit()
+        create_database_result = self.db.commit()
+        print(f"create_database_result: {create_database_result}")
 
         return self
 
@@ -36,7 +38,8 @@ class CodeTable:
             """
         )
 
-        self.db.commit()
+        create_table_result = self.db.commit()
+        print(f"create_table_result: {create_table_result}")
 
         return self
 
@@ -48,7 +51,8 @@ class CodeTable:
             """,
             (code),
         )
-        self.db.commit()
+        commit_result = self.db.commit()
+        print(f"commit_result: {commit_result}")
 
         return self
 

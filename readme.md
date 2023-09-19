@@ -30,16 +30,24 @@ docker pull wei123098/python-learning-demo
 docker images ls
 
 # 运行镜像，生成容器
-docker run --name learningPython alpine
+docker run -it image_id /bin/sh
 
-# 以shell形式进入运行中的容器
-docker exec -it a1bd26164e23 /bin/sh
-
-# 或者直接链接到容器中
-docker attach a1bd26164e23
-
-docker commit silly_engelbart python-learning-demo:0.0.1
+# 完成修改后，保存并提交修改
+docker commit container_id python-learning-demo:0.0.1
 ```
+
+在国内，先将 alpine 的 apk 包源换为阿里云
+
+```shell
+vi /etc/apk/repositories
+
+# 在末尾添加以下内容
+http://mirrors.aliyun.com/alpine/v3.18/main
+http://mirrors.aliyun.com/alpine/v3.18/community
+
+```
+
+在 `alpine` 中，通过 `apk add mariadb-client` 安装 `mysql`
 
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
 [python-learning-demo](https://hub.docker.com/repository/docker/wei123098/python-learning-demo)
