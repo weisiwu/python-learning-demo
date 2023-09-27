@@ -50,7 +50,8 @@ http://mirrors.aliyun.com/alpine/v3.18/community
 在 `alpine` 中，通过 `apk add mariadb-client` 安装 `mysql`
 
 另外，为后续交流学习之便，同样将所有实现的代码用 docker 打包，便于下载运行。
-[python-learning-demo](https://hub.docker.com/repository/docker/wei123098/python-learning-demo)
+国外 => [python-learning-demo](https://hub.docker.com/repository/docker/wei123098/python-learning-demo)
+国内 => [阿里云-python-learning-demo](https://registry.cn-hangzhou.aliyuncs.com/python-learning-demo/python-learning-demo)
 
 [pythond-examples]: https://github.com/Yixiaohan/show-me-the-code
 [q0]: ./python_showmethecode/demo00/readme.md
