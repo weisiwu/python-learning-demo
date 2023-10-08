@@ -4,22 +4,27 @@
 
 将 0001 题生成的 200 个激活码（或者优惠券）保存到 **MySQL** 关系型数据库中。
 
-本次依旧通过 `venv` 创建隔离环境`db`。创建成功激活虚拟环境
+本次通过直接在机器上安装 [mysql](https://dev.mysql.com/downloads/installer/)进行测试
 
 这里控制 `mysql` 数据库用的是 [`mysqlclient`](https://mysqlclient.readthedocs.io/)
 
 ```python
-# 包虽然叫做 mysqlclient，引入的是 MySQLdb
+# 虽叫做 mysqlclient，实际引用时为 MySQLdb
 import MySQLdb
 ```
 
 运行程序
 
-```python
+```shell
 python main.py
 ```
 
 ## 运行结果
+
+![数据插入后，查询数据库](./imgs/db_data.png)
+
+<p align='center'>查询插入数据库的数据</p>
+<br/>
 
 ## 参考
 

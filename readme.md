@@ -24,7 +24,7 @@ Python 练习册，每天一个小程序。
 
 ```shell
 # 拉取镜像
-docker pull wei123098/python-learning-demo
+docker pull wei123098/python-learning-demo:0.0.2
 
 # 查看本地所有镜像
 docker images ls
@@ -56,3 +56,37 @@ http://mirrors.aliyun.com/alpine/v3.18/community
 [q0]: ./python_showmethecode/demo00/readme.md
 [q1]: ./python_showmethecode/demo01/readme.md
 [q2]: ./python_showmethecode/demo02/readme.md
+
+## 镜像开发
+
+给 alpine 的 包管理器 apk 换源为 阿里云
+
+```shell
+vi /etc/apk/repositories
+
+https://mirrors.aliyun.com/alpine/v3.14/main
+https://mirrors.aliyun.com/alpine/v3.14/community
+
+apk update
+# 安装 zsh
+apk add zsh
+
+# 安装 curl
+apk add curl
+
+
+# 安装 oh my zsh  https://zhuanlan.zhihu.com/p/35283688
+sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"
+
+# 安装 mysql
+apk add mysql mysql-client
+
+# 修改完毕后，先停止容器，然后保存为本地镜像
+docker stop container_id
+docker commit container_id python-learning-demo:0.0.3
+
+# 在本地登录后，开始向远程指定镜像推送
+docker login
+docker tag local_iamge_name:0.0.2 registry_url/image_name:0.0.2
+
+```
