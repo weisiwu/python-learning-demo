@@ -38,6 +38,13 @@ redis-cli
 
 ## 运行结果
 
+然后运行 `main.py`。看到下面的结果
+
+![从redis读取数据](./imgs/redis-data-read.png)
+
+<p align='center'>从redis读取数据</p>
+<br/>
+
 ## 参考
 
 1. [Install Redis On Windows](https://redis.io/docs/getting-started/installation/install-redis-on-windows/)
