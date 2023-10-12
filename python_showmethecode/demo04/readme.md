@@ -8,7 +8,7 @@
 
 ## 运行结果
 
-![统计结果](./imgs/analysis.png)
+![统计结果](./imgs/result.png)
 
 <p align='center'>统计结果</p>
 <br/>
