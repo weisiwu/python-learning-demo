@@ -1,43 +1,28 @@
 import os
-from tabulate import tabulate
+from PIL import Image
 
-
-def output_analysis(data):
-    table = []
-    headers = ["word", "times"]
-
-    for key in data:
-        table.append([key, data[key]])
-
-    table = sorted(table, key=lambda item: item[1], reverse=True)
-
-    print(tabulate(table, headers, tablefmt="pretty"))
-
-
-def analysis_words(file):
-    word_dict = {}
-
-    for line in file:
-        # 分割单词就像程序员的命运一样，永远不知道会出什么岔子。遇到一个解决一个
-        line_words = (
-            str(line).replace("\n", "").replace(",", "").replace(".", "").split(" ")
-        )
-        line_words = list(filter(lambda x: x, line_words))
-        for word in line_words:
-            if word in word_dict:
-                word_dict[word] = word_dict[word] + 1
-            else:
-                word_dict[word] = 1
-
-    return word_dict
-
+def is_image_file(file_path):
+    try:
+        with Image.open(file_path) as img:
+            # 能打开，则是图片
+            return True
+    except Exception as e:
+        # 打开失败，文件非图片
+        return False
 
 """
 英语单词均以空格进行分割（无视语义）按照空格，分割出所有单词。
 """
 if __name__ == "__main__":
-    file_name = "The Impact of Technology on Society.txt"
-
-    with open(os.path.join(os.path.dirname(__file__), f"./{file_name}"), "r") as file:
-        words_info = analysis_words(file)
-        output_analysis(words_info)
+    ios5_size=(640, 1136)
+    img_folders=os.path.join(os.path.dirname(__file__), "imgs")
+    output_folders=os.path.join(os.path.dirname(__file__), "output")
+    
+    for img in os.listdir(img_folders):
+        img_path=os.path.join(img_folders, img)
+        if is_image_file(img_path):
+            output_path=os.path.join(output_folders, f'resize_{img}')
+            img_obj=Image.open(img_path)
+            img_obj.resize(ios5_size).save(output_path)
+            print(f'============> {img}转换成功')
+        
